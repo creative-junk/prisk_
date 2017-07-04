@@ -1,0 +1,67 @@
+{% extends 'base.htm.twig' %}
+
+{% block body %}
+    <h2>Mpesa Confirmation</h2>
+
+    <div class="row">
+        <div class="">
+            <div class="panel registration-form">
+                <div class="panel-body">
+                    <div class="row">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="{{ asset('images/M-PESA.jpg') }}" width="150"/>
+                        </div>
+                        {% if success =="Success" %}
+                        <h6>Payment received</h6>
+                        <p>Thank you for your payment. Below are the details of your payment.</p>
+                    </div>
+                    <div class="row">
+
+                    <ul style="list-style: none">
+                            <li> <b>Mpesa Confirmation Code:</b> {{ profile.mpesaConfirmationCode }}</li>
+                            <li> <b>Mpesa Transaction Status:</b> {{ profile.mpesaStatus }}</li>
+                            <li> <b>Mpesa Description:</b> {{ profile.mpesaDescription }} </li>
+                            <li> <b>Mpesa Payment Date:</b> {{ profile.mpesaPaymentDate | date('Y-m-d H:i:s')  }}  </li>
+                            <li> <b>Mpesa Number:</b> {{ profile.mpesaNumber }}</li>
+                            <li> <b>Amount:</b> {{ profile.mpesaAmount }}</li>
+
+                        </ul>
+                        <p>Thank you for paying your Membership Fee and updating your profile on the PRISK Online Portal.</p>
+                        <p>A member of our team will be in touch shortly to guide you on the next steps.</p>
+                        <p>In the meantime, to complete your profile, kindly send your recordings in mp3 format to <b>membership@prisk.or.ke.</b></p>
+                        {% elseif success == "Failed" %}
+                        <h6>Payment Failed</h6>
+                        <p>Oops Something went wrong with your payment.</p>
+                        <p>If you are seeing this message but the Mpesa payment completed and you received an Mpesa confirmation message, kindly <a style="color: #00a5bb" href="{{ path('verify-payment') }}"> Click here</a> to verify again. </p>
+                        
+                        <p> If the transaction failed or timed out, Kindly <a style="color: #00a5bb" href="{{ path('pay_mpesa') }}"> Click here</a> to try again.</p>
+
+                        {% else %}
+                            <h6>Payment Pending</h6>
+                            <p>Your payment is yet to be verified. We will notify you when the payment is verified.</p>
+
+                        {% endif %}
+                    </div>
+
+                    <div class="text-right">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /registration form -->
+
+
+
+
+
+{% endblock %}
+
+
+

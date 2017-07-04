@@ -1,0 +1,308 @@
+{% extends 'adminBase.htm.twig' %}
+{% block title %}User Profile {% endblock %}
+
+{% block body %}
+    {% block left %}{% endblock %}
+    <div id="content" class="app-content box-shadow-z0" role="main">
+        <div class="app-header white box-shadow">
+            <div class="navbar">
+
+
+                <!-- navbar collapse -->
+                <div class="collapse navbar-toggleable-sm" id="collapse">
+                    <div ui-include="'../views/blocks/navbar.form.right.html'"></div>
+                    <!-- link and dropdown -->
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item dropdown"><br/>
+                            <h5>Profile Review - {{ profile.fullName }}</h5>
+
+                        </li>
+                    </ul>
+                    <!-- / -->
+                </div>
+                <!-- / navbar collapse -->
+            </div>
+        </div>
+
+        <div ui-view class="app-body" id="view">
+
+            <!-- ############ PAGE START-->
+
+
+
+            <div class="padding">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Personal Information</strong></div>
+                    <div class="panel-body">
+                        <div class="row">
+
+                            <div class="col-md-6"><strong>Names:&nbsp;&nbsp; </strong>
+                                {{ profile.prefix }} {{ profile.fullName }}
+                            </div>
+
+                            <div class="col-md-6">
+                            <strong>Date Of Birth</strong>
+                                {% if profile.dateOfBirth %}
+                                    {{ profile.dateOfBirth | date('d/m/Y')  }}
+                                {%  endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><strong>Nationality:&nbsp;&nbsp; </strong>
+                                {{ profile.nationality }}
+                            </div>
+                            <div class="col-md-6"><strong>Language:&nbsp;&nbsp; </strong>
+                                {{ profile.language }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><strong>Marital Status:&nbsp;&nbsp; </strong>
+                                {{ profile.maritalStatus }}
+                            </div>
+                            <div class="col-md-6"><strong>Spouse Name:&nbsp;&nbsp; </strong>
+                                {{ profile.spouseName }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><strong>ID Number:&nbsp;&nbsp; </strong>
+                                {{ profile.idNumber }}
+                            </div>
+                            <div class="col-md-6"><strong>KRA Itax PIN:&nbsp;&nbsp; </strong>
+                                {{ profile.itaxPin }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6"><strong>Gender:&nbsp;&nbsp; </strong>
+
+                                    {{ profile.gender }}
+
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Rights:&nbsp;&nbsp; </strong>
+                                {% for profileRight in profile.rights %}
+                                    <br/>{{ profileRight }}
+
+                                    {% endfor %}
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><strong>Country of Residence:&nbsp;&nbsp; </strong>
+                                {{ profile.countryOfResidence }}
+                            </div>
+                            <div class="col-md-6"><strong>Source of Data:&nbsp;&nbsp; </strong>
+                                {% if profile.sourceOfData %}
+                                {{ profile.sourceOfData }}
+                                    {% else %}
+                                        Self
+                                        {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><strong>Registration Date:&nbsp;&nbsp; </strong>
+
+                                    {{ profile.createdAt | date('d/m/Y')  }}
+
+                            </div>
+                            <div class="col-md-6"><strong>Status:&nbsp;&nbsp; </strong>
+                                     {% if profile.isPaid %}
+                                         Paid Membership
+                                     {% else %}
+                                         Payment Pending
+                                     {% endif %}
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Address Details</strong></div>
+                    <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6"><strong>Physical Address:&nbsp;&nbsp; </strong>
+                                    {{ profile.physicalAddress }}
+                                </div>
+                                <div class="col-md-6"><strong>Postal Address:&nbsp;&nbsp; </strong>
+                                    {{ profile.postalAddress }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Postal Code:&nbsp;&nbsp; </strong>
+                                        {{ profile.postalCode }}
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <strong>City:&nbsp;&nbsp; </strong>
+                                        {{ profile.city }}
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Country:&nbsp;&nbsp; </strong>
+                                        {{ profile.country }}
+
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Phone Number:&nbsp;&nbsp; </strong>
+                                        {{ profile.phoneNumber }}
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Alt. Phone Number:&nbsp;&nbsp; </strong>
+                                        {{ profile.altPhoneNumber }}
+
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Fax Number:&nbsp;&nbsp; </strong>
+                                        {{ profile.faxNumber }}
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Email Address:&nbsp;&nbsp; </strong>
+                                        {{ profile.emailAddress }}
+
+                                </div>
+                                <div class="col-md-6">
+                                   <strong>Website:&nbsp;&nbsp; </strong>
+                                        {{ profile.website }}
+
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Bank Details</strong></div>
+                    <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-md-6"><strong>Name of Payee:&nbsp;&nbsp; </strong>
+                                    {{ profile.nameOfPayee }}
+                                </div>
+                                <div class="col-md-6"><strong>Account Name:&nbsp;&nbsp; </strong>
+                                    {{ profile.accountName }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Bank:&nbsp;&nbsp; </strong>
+                                        {{ profile.bank }}
+
+                                </div>
+
+                                <div class="col-md-6">
+                                  <strong>Bank Branch:&nbsp;&nbsp; </strong>
+                                        {{ profile.bankBranch }}
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Account Number:&nbsp;&nbsp; </strong>
+                                        {{ profile.accountNumber }}
+
+                                </div>
+
+                                <div class="col-md-6">
+                                   <strong>Currency:&nbsp;&nbsp; </strong>
+                                        {{ profile.currency }}
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                   <strong>Account Type:&nbsp;&nbsp; </strong>
+                                        {{ profile.bankAccountType }}
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <strong>Bank P.O Box:&nbsp;&nbsp; </strong>
+                                        {{ profile.bankPostalAddress }}
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>IBAN:&nbsp;&nbsp; </strong>
+                                        {{ profile.iban }}
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <strong>Swift BIC:&nbsp;&nbsp; </strong>
+                                        {{ profile.swiftBic }}
+
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Approval</strong></div>
+                    <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {% if profile.profileStatus == "Rejected" %}
+                                        <strong>Rejected On:</strong> {{ profile.processedAt | date("F jS \\a\\t g:ia") }}<br/>
+                                        <strong>Rejected By: </strong> {{ profile.processedBy.fullName }}<br/>
+                                        <strong>Reason:</strong> {{ profile.statusDescription }}
+                                    {% elseif profile.profileStatus == "Approved" %}
+                                        <strong>Approved On:</strong> {{ profile.processedAt | date("F jS \\a\\t g:ia") }}<br/>
+                                        <strong>Approved By: </strong> {{ profile.processedBy.fullName }}<br/>
+                                        <strong>Comment:</strong> {{ profile.statusDescription }}
+
+
+                                    {% else %}
+                                    <strong>Status: </strong> {{ profile.profileStatus }}
+                                        {% endif %}
+                                </div></div>
+
+                        </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>System Details</strong></div>
+                    <div class="panel-body">
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Generated By: </strong>{{ app.user.fullName }}
+                            </div>
+
+                            <div class="col-md-6">
+                                <strong>Generated On: </strong>{{ "now" | date("F jS \\a\\t g:ia") }}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                    </div>
+                </div>
+
+                </div>
+            </div>
+
+            <!-- ############ PAGE END-->
+
+        </div>
+    </div>
+{% endblock %}

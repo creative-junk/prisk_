@@ -1,0 +1,9 @@
+AppBundle\Entity\User:
+    user{1..12}:
+        firstName: "<firstName($gender = null|'male'|'female')>"
+        lastName: '<lastName()>'
+        email: '<email()>'
+        plainPassword: iliketurtles
+        roles: '<userRole()>'
+        isActive: '<boolean(95)>'
+

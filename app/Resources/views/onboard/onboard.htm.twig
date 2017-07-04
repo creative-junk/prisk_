@@ -1,0 +1,132 @@
+{% extends 'base.htm.twig' %}
+
+{% block body %}
+<style>
+    @media only screen and (max-width: 640px) {   
+    #sp-left,#sp-right{
+        display:none;
+    }
+    .com-content #sp-main-body, .view-article #sp-main-body{
+        margin-top:0px;
+    }
+     .com-sppagebuilder #sp-component, .com-search #sp-component, .com-content #sp-component {
+    min-width: 340px;
+}   
+    }
+</style>
+    <h2>Register</h2>
+    {% if not onboardForm.vars.valid %}
+        <ul>
+            {# Loop through every form item #}
+            {% for child in onboardForm.children %}
+                {# Display the errors of the form item #}
+                {%for error in child.vars.errors%}
+                    <li>{{error.message}}</li>
+                {%endfor%}
+            {%endfor%}
+        </ul>
+    {%endif%}
+    {{ form_start(onboardForm) }}
+
+        <div class="row">
+            <div class="">
+                <div class="panel registration-form">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    {{ form_row(onboardForm.stageName) }}
+                                    <div class="form-control-feedback">
+                                        <i class="icon-user-plus text-muted"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    {{ form_row(onboardForm.idNumber,{
+                                        'label': 'ID/Passport/Birth Cert no.'
+                                    }) }}
+                                    <div class="form-control-feedback">
+                                        <i class="icon-user-plus text-muted"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    {{ form_row(onboardForm.firstName) }}
+                                    <div class="form-control-feedback">
+                                        <i class="icon-user-check text-muted"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    {{ form_row(onboardForm.lastName) }}
+                                    <div class="form-control-feedback">
+                                        <i class="icon-user-check text-muted"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    {{ form_row(onboardForm.email.first,{
+                                        'label': 'Your Email'
+                                    }) }}
+                                    <div class="form-control-feedback">
+                                        <i class="icon-mention text-muted"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                    {{ form_row(onboardForm.email.second,{
+                                        'label': 'Repeat Email'
+                                    }) }}
+                                </div>
+                                <div class="form-control-feedback">
+                                    <i class="icon-mention text-muted"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="checkbox">
+                                        {{ form_row(onboardForm.termsOfService,{
+                                            'label': 'Accept Terms of Service'
+                                        }) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <button type="submit" style="background-color: #fd9614" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10" formnovalidate><b><i
+                                            class="icon-plus3"></i></b> Register
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- /registration form -->
+
+
+    {{ form_end(onboardForm) }}
+    <div>
+        **<a style="color:#fd9614" href="http://creative-junk.com/priskportal/images/Terms-and-conditions.pdf">Click here</a> to read our terms and conditions </a>
+    </div>
+
+{% endblock %}
+
+
+

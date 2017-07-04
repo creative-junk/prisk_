@@ -1,0 +1,271 @@
+/*=======================================
+ *===========  Footer Less	 ============
+ *=======================================
+	1. Brand
+	2. Bottom
+	3. Footer
+ *==========   Start Brand   ============
+ *=======================================*/
+#sp-brand-wrapper {
+
+}
+
+/* End  Brand
+ *==========   Start Bottom   ===========
+ *=======================================*/
+
+#sp-bottom-wrapper{
+	background: linear-gradient(90deg,#1a1a1a 34%,#222 25%);
+
+	color: rgba(255,255,255,0.5);	
+	font-size: 14px;
+	
+	#sp-bottom2,
+	#sp-bottom3{
+		.border-right(1px solid rgba(255,255,255,0.1));
+		padding: 60px 35px 80px;
+		width: 22.22222222%;
+	}
+	#sp-bottom4{
+		padding-top: 60px;
+		padding-bottom: 40px;
+		width: 32.33333333%;
+	}
+	#sp-bottom1{
+		padding: 60px 35px 80px;
+		width: 22.2222222%;
+	}
+	.modtitle {
+		font-size: 16px;
+		margin-top: 0;
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+		color: #fff;
+		font-weight: 700;
+		text-transform: uppercase;		
+	}
+	a{
+		color: #a3a3a3;		
+	}
+	.logo-footer{
+		margin-bottom: 40px;
+	}
+	.contact-info {
+		li {
+			.padding-left(50px);
+			position: relative;
+			min-height: 40px;
+			margin: 0 0 20px;
+			padding-top: 5px;
+			font-weight: 300;
+			&:last-child {
+				margin: 0;
+			}
+			&:before {
+				position: absolute;
+				.left(0);
+				.square(42px);
+				top: 0;
+				bottom: 0;
+				margin: auto;
+				border: 2px solid rgba(255,255,255,0.1);
+				text-align: center;
+				line-height: 38px;
+				font-size: 16px;
+			}
+			&.sp-contact-phone,
+			&.sp-contact-email {
+				padding-top:11px;
+			}
+			.text{
+				font-family: "Poppins", sans-serif;
+				.text1{
+					text-transform: uppercase;
+				}
+			}
+		}
+	}	
+	.vina-vscoller-twitter{
+		.vina-item{
+			border-bottom: 0;
+			.padding-left(59px);
+			min-height: 80px;
+			.avatar{
+				.left(-59px);
+				border-radius: 0;
+			}
+		}
+	}
+	.mod_menu.menu{
+		
+			li{
+				background: transparent;
+				padding: 5px 0;	
+				transition: 0.5s;
+				a{
+					color: #777;
+					text-decoration: inherit;
+					.padding-left(15px);
+					position: relative;
+					&:before{
+						content: "-";
+						display: block !important;
+						position: absolute;
+						top: 0;
+						.left(0);			
+						line-height: 25px;
+						font-weight: 100;
+					}
+				}
+			}
+			li:first-child {
+				padding-top: 0;
+			}
+			li:last-child{
+				border-bottom: 0;
+			}
+		
+	}
+	
+	//home2 
+	
+}
+
+
+/* End  Bottom
+ *===========  Start Footer   ===========
+ *=======================================*/
+#sp-footer-wrapper {
+	padding: 15px 0;
+	line-height: 22px;	
+	ul {
+		display:inline-block;
+		&.nav {
+			display:inline-block;
+			list-style:none;
+			padding:0;
+			margin:0 5px;
+			li {
+				display:inline-block; 
+				margin:0 5px;
+				a {
+					display:block;
+					&:hover{
+						background:none;
+					}
+				}
+			}
+		}
+	}
+	#sp-footer2{
+		.text-right();
+	}
+}
+.sp-totop {
+	color: #fff;
+	line-height: 60px;
+	text-align: center;	
+	text-decoration: none;	
+	position: fixed;
+	right: 10px;
+	bottom: 10px;
+	display: block;
+	.square(60px);
+	background: #000;
+	cursor: pointer;
+	z-index: 9999;
+	.transition(all 0.4s ease);
+	small {
+		display: none;
+	}
+	i {
+		color: #fff;
+		font-size: 25px;
+		font-weight: normal;
+		line-height: 40px;
+		.transition(1s);
+		display: none;
+	}
+}
+/* End Footer
+ *=======================================*/
+
+.social-icons {
+	margin: auto !important;
+	display: table;
+	text-align: center;
+	padding: 0;
+	li {
+		.float-left;
+		margin: 0 10px;	
+		line-height: 38px;
+		display: block;
+		a {
+			padding: 5px;
+			text-align: center;
+			.square(48px);
+			display: block;
+			color: #222;
+			font-size: 18px;		
+			border: 2px solid #e5e5e5;
+		}
+		
+	}
+}
+	.btn-default {
+		color: #fff;
+	} 
+.acymailing_module {
+	color: rgba(34,34,34,1);
+	font-weight: 300;
+	text-align: center;
+	.acymailing_introtext{
+		margin-bottom: 25px !important;
+	}
+	.acymailing_form {
+		position: relative;
+		display: inline-block;
+		#sp-bottom-wrapper .acymailing_form;
+		border: 1px solid rgba(255,255,255,0.2);
+		padding: 4px;
+		p {
+			margin: 0;
+		}
+		.inputbox {
+			height: 44px;						
+			border-top: 1px solid #222;
+			border-bottom: 1px solid #222;
+			background: #fff;
+			border-radius: 0;
+			margin-bottom: 35px;
+			border-left: 0;
+			border-right: 0;
+			box-shadow: none;
+			width: 600px !important;
+		}
+		.acyfield_email{
+			display: block;
+			&:after{
+				content: "";
+				width: 34px;
+				height: 34px;
+				position: absolute;
+				background: #fff;
+				background-image: url(../images/icons/icon_send.png);
+				background-repeat: no-repeat;
+				background-position: center center;
+				top: 4px;
+				.right(0);
+			}
+		}
+		.acysubbuttons {
+			width: auto;
+			.button {				
+				font-size: 13px;
+				text-transform: uppercase;
+				padding: 11px 30px 9px;
+				border-radius: 0;
+			}
+		}
+	}
+}

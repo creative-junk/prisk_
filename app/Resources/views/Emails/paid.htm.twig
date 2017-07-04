@@ -1,0 +1,25 @@
+<h3>Payment Successful!</h3>
+<p>
+    Hello {{ name }}!
+</p><p>Thank you for paying your Membership Fee and updating your profile on the PRISK Online Portal.</p>
+<p>
+    PRISK has successfully received your M-Pesa payment with the details below and your profile has been submmitted for review.
+</p>
+
+<p><b>Mpesa Confirmation Code:</b>&nbsp;&nbsp; {{ code.a }}</p>
+<p><b>Mpesa Payment Date:</b>&nbsp;&nbsp;{{ code.b | date }}</p>
+<p><b>Mpesa Number:</b>&nbsp;&nbsp;{{ code.c }}</p>
+<p><b>Amount:</b>&nbsp;&nbsp; Ksh {{ code.d }}</p>
+
+<p>A member of our team will be in touch shortly to guide you on the next steps.</p>
+
+<p>  In the meantime, to complete your profile, kindly send your recordings in <b>mp3</b> format to membership@prisk.or.ke.
+</p>
+<p>
+    Thank you!
+</p><p>
+    --PRISK Team
+</p><p>
+    {# Makes an absolute URL to the loko/images/PRISK_Logo_v_2.2_website.png file #}
+    <img src="{{ absolute_url(asset('loko/images/PRISK_Logo_v_2.2_website.png')) }}">
+</p>

@@ -1,0 +1,58 @@
+{% extends 'base.htm.twig' %}
+
+{% block body %}
+    <h2>Complete Mpesa Payment</h2>
+  <style>
+        @media only screen and (max-width: 640px) {
+            .content-holder{
+                max-width:340px;
+            }
+        }
+    </style>
+    <div class="row">
+        <div class="">
+            <div class="panel registration-form">
+                <div class="panel-body">
+                    <div class="row">
+
+                    </div>
+                    <div class="row content-holder">
+                        <div class="col-md-6">
+                            <h6>How to Complete your Mpesa Payment</h6>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="{{ asset('images/M-PESA.jpg') }}" width="150"/>
+                        </div>
+                    </div>
+                    <div class="row content-holder"></div>
+                        <ul style="list-style: none">
+                            <li>1. Open your Phone </li>
+                            <li>2. When asked to enter your service PIN, Enter your "Mpesa PIN" and click Send</li>
+                            <li>3. Select option 1 to confirm your Payment and click Send</li>
+                            <li>4. Wait for Mpesa Confirmation</li>
+                            <li>5. Click the Finish Button below</li>
+                            <li><br/><br/>** if you get a <b><i>"Connection problem or invalid MMI code"</i></b> error, click cancel on your phone then <a style="color: #00a5bb" href="{{ path('pay_mpesa') }}"> Click here </a> to go back to the previous page and try again. **</li>
+                        </ul>
+                    </div>
+
+                    <div class="text-right">
+
+                        <a href="{{ path('verify-payment') }}" style="background-color: #fd9614" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10" formnovalidate><b><i
+                                        class="icon-plus3"></i></b> finish
+                        </a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /registration form -->
+
+
+
+
+{% endblock %}
+
+
+

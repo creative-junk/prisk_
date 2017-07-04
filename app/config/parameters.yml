@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: localhost
+    database_port: null
+    database_name: creativ1_prportal
+    database_user: creativ1_prportal
+    database_password: 8F70[$qL9G5u
+    mailer_transport: smtp
+    mailer_host: chi-rs37.websitehostserver.net
+    mailer_user: prisk@creative-junk.com
+    mailer_password: Bh3HhN*x}pic
+    secret: cade8F70!

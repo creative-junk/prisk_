@@ -1,0 +1,79 @@
+{% extends 'base.htm.twig' %}
+{% block title %}Pay by Mpesa {% endblock %}
+{% block body %}
+    <h2>Pay by Mpesa</h2>
+    {% if not mpesaForm.vars.valid %}
+
+        {# Loop through every form item #}
+        {% for child in mpesaForm.children %}
+            {# Display the errors of the form item #}
+            {%for error in child.vars.errors%}
+                <p><div class="alert alert-danger">{{error.message}}</div></p>
+            {%endfor%}
+        {%endfor%}
+
+    {%endif%}
+    {{ form_start(mpesaForm) }}
+    <style>
+        @media only screen and (max-width: 640px) {
+            .content-holder{
+                max-width:340px;
+            }
+        }
+    </style>
+    <div class="row">
+        <div class="">
+            <div class="panel registration-form">
+                <div class="panel-body">
+                    <div class="row">
+
+                    </div>
+                    <div class="row content-holder">
+                        <div class="col-md-3">
+                            <img src="{{ asset('images/M-PESA.jpg') }}" width="150"/>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group has-feedback">
+                                {{ form_row(mpesaForm.phoneNumber,{
+                                    'label': 'Mpesa Number to Pay With.'
+                                }) }}
+                                <div class="form-control-feedback">
+                                    <i class="icon-user-plus text-muted"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h6>How to Pay</h6>
+                        <ul style="list-style: none">
+                            <li>1. Confirm your Mpesa Number in the box above </li>
+                            <li>&nbsp;</li>
+                            <li>2. Your number MUST be in the format 2547XXXXXXXX for example 254721123456 </li>
+                            <li>&nbsp;</li>
+                            <li>3. When you click the Continue below, Mpesa will pop up on your Phone and request you to enter your Service PIN(Mpesa PIN). Enter your Mpesa PIN.</p>
+                            <li>&nbsp;</li>
+                            <li>4. Mpesa will then ask you to confirm the amount. The Registration fee is <b>Ksh 3,000</b> payable to <b>Performers Rights Society of Kenya</b>.</p>
+                              <p>When ready, click the button below to make your Mpesa payment.</p>
+
+                        </ul>
+                    </div>
+
+                    <div class="">
+
+                        <button type="submit" style="background-color: #fd9614" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10" formnovalidate><b><i
+                                        class="icon-plus3"></i></b> Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /registration form -->
+
+
+    {{ form_end(mpesaForm) }}
+
+
+{% endblock %}
+
+
+

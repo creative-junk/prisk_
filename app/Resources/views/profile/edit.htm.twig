@@ -1,0 +1,414 @@
+{% extends 'base.htm.twig' %}
+{% block title %}Update Profile {% endblock %}
+
+{% block javascript %}
+
+    <!-- Core JS files -->
+    <script type="text/javascript" src="{{ asset('loko/js/plugins/loaders/pace.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('loko/js/core/libraries/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('loko/js/core/libraries/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('loko/js/plugins/loaders/blockui.min.js') }}"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="{{ asset('loko/js/plugins/forms/wizards/steps.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('loko/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('loko/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('loko/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('loko/js/core/libraries/jasny_bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('loko/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('loko/js/plugins/extensions/cookie.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('loko/js/core/app.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('loko/js/pages/datatables_basic.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('loko/js/pages/wizard_steps.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        jQuery(document).ready(function() {
+            $('.js-datepicker').datepicker(
+                {
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1930:2009',
+                    dateFormat: 'yy-mm-dd',
+                    setDate:"7/11/1930"
+                }
+            );
+        });
+        jQuery(document).ready(function() {
+            $('.js-sincepicker').datepicker(
+                {
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: 'yy-mm-dd',
+
+                }
+            );
+        });
+        jQuery(document).ready(function() {
+            $('#profile_form_maritalStatus').on('change', function() {
+                if (this.value == "Single" || this.value=="Other"){
+                    document.getElementById('profile_form_spouseName').readOnly = true;
+                }else{
+                    document.getElementById('profile_form_spouseName').readOnly = false;
+                }
+
+            });
+        });
+    </script>
+    <script src="{{ asset('loko/mod_vina_treeview_menus/assets/js/jquery.cookie.js') }}"
+            type="text/javascript"></script>
+    <script src="{{ asset('loko/mod_vina_treeview_menus/assets/js/jquery.treeview.js') }}"
+            type="text/javascript"></script>
+    <script type="text/javascript">
+        jQuery(function () {
+            jQuery(document).ready(function () {
+                jQuery('.active').addClass('open');
+                jQuery('.active').children('ul').slideDown();
+                jQuery('#je_accord460 li.has-sub>a').on('click', function () {
+                    jQuery(this).removeAttr('href');
+                    var element = jQuery(this).parent('li');
+
+                    if (element.hasClass('open')) {
+                        element.removeClass('open');
+                        element.find('li').removeClass('open');
+                        element.find('ul').slideUp('normal');
+                    }
+                    else {
+                        element.addClass('open');
+                        element.children('ul').slideDown('normal');
+                        element.siblings('li').children('ul').slideUp('normal');
+                        element.siblings('li').removeClass('open');
+                        element.siblings('li').find('li').removeClass('open');
+                        element.siblings('li').find('ul').slideUp('normal');
+                    }
+                });
+                jQuery('.profile').addClass('active');
+
+                jQuery('#je_accord460>ul>li.has-sub>a').append('<span class="holder"></span>');
+            });
+        });
+
+        jQuery(function ($) {
+            $(".hasTooltip").tooltip({"html": true, "container": "body"});
+        });
+    </script>
+{% endblock %}
+
+{% block pageTitle %}<h2>Update Profile</h2>{% endblock %}
+{% block breadCrumbs %}
+    <ol class="breadcrumb">
+        <li><i class="fa fa-home"></i></li>
+        <li><a href="http://prisk.or.ke/index.php/en" class="pathway">Home</a></li>
+        <li><a href="http://prisk.or.ke/index.php/en/membership" class="pathway">Membership</a></li>
+        <li><a href="http://prisk.or.ke/index.php/en/thinking-about-joining" class="pathway">Thinking about Joining</a></li>
+        <li><a href="#" class="pathway">Register Online</a></li>
+        <li class="active">Update Profile</li>
+    </ol>
+{% endblock %}
+{% block component %}
+<div id="sp-component" class="col-sm-9 col-md-9">
+    {% endblock %}
+    {% block body %}
+        <div class="content">
+            <div class="panel registration-form">
+                <div class="panel-body">
+                    <div class="text-center">
+                        <div class="icon-objet border-success text-error"></div>
+                        <h5 class="content-group-lg">Register Online - Update Profile <small class="display-block">Starred (*) Fields are required and must be filled for the entry to be successfully saved</small></h5>
+                    </div>
+                    <div style="margin-bottom:-20px">
+                        {% if not profileForm.vars.valid %}
+
+                            {# Loop through every form item #}
+                            {% for child in profileForm.children %}
+                                {# Display the errors of the form item #}
+                                {%for error in child.vars.errors%}
+                                    <p><div class="alert alert-danger">{{error.message}}</div></p>
+                                {%endfor%}
+                            {%endfor%}
+
+                        {%endif%}
+                        <p><b>Name:</b>  {{ profile.firstName }}&nbsp;{{ profile.lastName }}</p>
+                        <p><b>Email: </b>{{ profile.emailAddress }}</p>
+                    </div>
+
+                    {{ form_start(profileForm,{ 'attr': {'class': 'steps-validation'} }) }}
+                    <h6>Personal Information</h6>
+                    <fieldset>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.prefix) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.lastName,{
+                                    'label': 'Last Name'
+                                }) }}
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.firstName,{
+                                    'label': 'First Name'
+                                }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.middleName,{
+                                    'label': 'Middle Name'
+                                }) }}
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.dateOfBirth) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.stageName,{
+                                    'label': 'Stage Name'
+                                }) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.nationality,{ 'attr': {'class': 'select'} }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.language,,
+                                    'attr': {'class': 'select'})
+                                    }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.maritalStatus,{
+                                    'label': 'Marital Status'
+                                }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.spouseName,{
+                                    'label': 'Spouse Name'
+                                }) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.idNumber,{
+                                    'label': 'ID / Passport Number.'
+                                }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.itaxPin,{
+                                    'label': 'Pin Number (I-TAX Pin)'
+                                }) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.countryOfResidence,{
+                                    'label': 'Country of Residence',
+                                    'attr': {'class': 'select'}
+                                }) }}
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group radios">
+                                    {{ form_row(profileForm.gender) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group radios">
+                                    {{ form_row(profileForm.rights) }}
+                                </div>
+                            </div>
+                        </div>
+                        <style>
+                            #profile_form_rights{
+                                height:126px;
+                            }
+                            #profile_form_gender_1{
+                                margin-left: 10px;
+                            }
+                        </style>
+
+                    </fieldset>
+                    <h6>Address Details</h6>
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.physicalAddress,{
+                                    'label': 'Physical Address'
+                                }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.postalAddress,{
+                                    'label': 'Postal Address'
+                                }) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.postalCode,{
+                                        'label': 'Postal Code'
+                                    }) }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.city) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.country,
+                                    'attr': {'class': 'select'}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.phoneNumber,{
+                                        'label': 'Phone Number1 (25472XXXXXXX)'
+                                    }) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.altPhoneNumber,{
+                                        'label': 'Phone Number2'
+                                    }) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.faxNumber) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.emailAddress,{
+                                        'label': 'Email Address'
+                                    }) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.website) }}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <h6>Bank Details</h6>
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.nameOfPayee,{
+                                    'label': 'Name of Payee'
+                                }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.paymentMpesaNumber,{
+                                    'label': 'Mpesa Number'
+                                }) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form_row(profileForm.accountName,{
+                                    'label': 'Account Name',
+                                }) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.bank,
+                                          'attr': {'class': 'select'})
+                                    }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.bankBranch,{
+                                        'label': 'Bank Branch'
+                                    }) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.accountNumber,{
+                                        'label': 'Account Number'
+                                    }) }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.currency,
+                                    'attr': {'class': 'select'}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.bankAccountType,{
+                                        'label': 'Bank Account Type',
+                                        'attr': {'class': 'select'}
+                                    }) }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.bankPostalAddress,{
+                                        'label': 'Postal Address'
+                                    }) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.iban,{
+                                        'label': 'Iban'
+                                    }) }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_row(profileForm.swiftBic) }}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+
+                    </fieldset>
+                    {{ form_end(profileForm) }}
+
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+    {% block right %}
+{% endblock %}

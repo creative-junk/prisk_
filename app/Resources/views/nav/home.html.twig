@@ -1,0 +1,38 @@
+<div id="sp-menu" class="col-sm-7 col-md-7">
+    <div class="sp-column ">
+        <div class='sp-megamenu-wrapper'>
+            <a id="offcanvas-toggler" class="visible-xs visible-sm" href="#"><i class="fa fa-bars"></i></a>
+            <ul class="sp-megamenu-parent menu-fade-up hidden-xs hidden-sm">
+                <li class="sp-menu-item home"><a href="{{ path('home') }}"><i class="fa fa-home"></i> Home</a></li>
+                <li class="sp-menu-item recording sp-has-child ">
+                    <a href="{{ path('my-recordings') }}">
+                        <i class="fa fa-music"></i> My Recordings
+                    </a>
+
+                    <div class="sp-dropdown sp-dropdown-main sp-menu-center"
+                         style="width: 240px;left: -120px;">
+                        <div class="sp-dropdown-inner">
+                            <ul class="sp-dropdown-items">
+                                <li class="sp-menu-item"><a href="{{ path('add-recording') }}">New Recording</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="sp-menu-item sp-has-child kin"><a href="{{ path('my-next-of-kin') }}"><i class="fa fa-group"></i> Next of Kin</a>
+
+                    <div class="sp-dropdown sp-dropdown-main sp-menu-center"
+                         style="width: 240px;left: -120px;">
+                        <div class="sp-dropdown-inner">
+                            <ul class="sp-dropdown-items">
+                                <li class="sp-menu-item"><a href="{{ path('add-next-of-kin') }}">Add Next of Kin</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="sp-menu-item profile"><a href="{{ path('edit-profile') }}"><i class="fa fa-address-book"></i> My Profile</a></li>
+                <li class="sp-menu-item"><a href="{{ path('user_logout') }}"><i title="Logout" class="fa fa-sign-out"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
