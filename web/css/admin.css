@@ -36,9 +36,6 @@ dl {
 .dl-horizontal dd {
     margin-left: 180px;
 }
-.messages{
-    display: none;
-}
-.errors{
+.messages,.errors,.failure{
     display: none;
 }

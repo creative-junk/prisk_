@@ -10,6 +10,7 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -259,9 +260,81 @@ class Profile
      */
     private $statusDescription;
     /**
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    private $isMembershipApproved;
+    /**
+     * @ORM\ManyToOne(targetEntity="user")
+     */
+    private $membershipApprovedBy;
+    /**
      * @ORM\Column(type="datetime",nullable=true)
      */
-    private $createdAt;
+    private $membershipApprovedAt;
+    /**
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    private $isBoardApproved;
+    /**
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    private $isBoardRejected;
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $boardRejectionAt;
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    private $boardRejectionBy;
+    /**
+     * @ORM\Column(type="string",nullable=true)
+     */
+    private $boardRejectionReason;
+    /**
+     * @ORM\Column(type="integer",)
+     */
+    private $nrBoardApprovals;
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    private $boardApprover1;
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    private $boardApprover2;
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    private $boardApprover3;
+    /**
+     * @ORM\Column(type="string",nullable=true)
+     */
+    private $boardApprovalStatus1;
+    /**
+     * @ORM\Column(type="string",nullable=true)
+     */
+    private $boardApprovalStatus2;
+    /**
+     * @ORM\Column(type="string",nullable=true)
+     */
+    private $boardApprovalStatus3;
+    /**
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    private $approval1At;
+    /**
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    private $approval2At;
+    /**
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    private $approval3At;
+    /**
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+       private $createdAt;
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      */
@@ -280,6 +353,16 @@ class Profile
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\User",mappedBy="myProfile")
      */
     private $whoseProfile;
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Documents",mappedBy="whichProfile",fetch="EXTRA_LAZY")
+     */
+    private $profileDocuments;
+
+    function __construct()
+    {
+        $this->profileDocuments = new ArrayCollection();
+    }
+
     /**
      * @return mixed
      */
@@ -1226,5 +1309,302 @@ class Profile
     {
         $this->paymentMpesaNumber = $paymentMpesaNumber;
     }
+
+    /**
+     * @return ArrayCollection | Documents
+     */
+    public function getProfileDocuments()
+    {
+        return $this->profileDocuments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsMembershipApproved()
+    {
+        return $this->isMembershipApproved;
+    }
+
+    /**
+     * @param mixed $isMembershipApproved
+     */
+    public function setIsMembershipApproved($isMembershipApproved)
+    {
+        $this->isMembershipApproved = $isMembershipApproved;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsBoardApproved()
+    {
+        return $this->isBoardApproved;
+    }
+
+    /**
+     * @param mixed $isBoardApproved
+     */
+    public function setIsBoardApproved($isBoardApproved)
+    {
+        $this->isBoardApproved = $isBoardApproved;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMembershipApprovedAt()
+    {
+        return $this->membershipApprovedAt;
+    }
+
+    /**
+     * @param mixed $membershipApprovedAt
+     */
+    public function setMembershipApprovedAt($membershipApprovedAt)
+    {
+        $this->membershipApprovedAt = $membershipApprovedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNrBoardApprovals()
+    {
+        return $this->nrBoardApprovals;
+    }
+
+    /**
+     * @param mixed $nrBoardApprovals
+     */
+    public function setNrBoardApprovals($nrBoardApprovals)
+    {
+        $this->nrBoardApprovals = $nrBoardApprovals;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBoardApprover1()
+    {
+        return $this->boardApprover1;
+    }
+
+    /**
+     * @param mixed $boardApprover1
+     */
+    public function setBoardApprover1($boardApprover1)
+    {
+        $this->boardApprover1 = $boardApprover1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBoardApprover2()
+    {
+        return $this->boardApprover2;
+    }
+
+    /**
+     * @param mixed $boardApprover2
+     */
+    public function setBoardApprover2($boardApprover2)
+    {
+        $this->boardApprover2 = $boardApprover2;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBoardApprover3()
+    {
+        return $this->boardApprover3;
+    }
+
+    /**
+     * @param mixed $boardApprover3
+     */
+    public function setBoardApprover3($boardApprover3)
+    {
+        $this->boardApprover3 = $boardApprover3;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApproval1At()
+    {
+        return $this->approval1At;
+    }
+
+    /**
+     * @param mixed $approval1At
+     */
+    public function setApproval1At($approval1At)
+    {
+        $this->approval1At = $approval1At;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApproval2At()
+    {
+        return $this->approval2At;
+    }
+
+    /**
+     * @param mixed $approval2At
+     */
+    public function setApproval2At($approval2At)
+    {
+        $this->approval2At = $approval2At;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApproval3At()
+    {
+        return $this->approval3At;
+    }
+
+    /**
+     * @param mixed $approval3At
+     */
+    public function setApproval3At($approval3At)
+    {
+        $this->approval3At = $approval3At;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMembershipApprovedBy()
+    {
+        return $this->membershipApprovedBy;
+    }
+
+    /**
+     * @param mixed $membershipApprovedBy
+     */
+    public function setMembershipApprovedBy($membershipApprovedBy)
+    {
+        $this->membershipApprovedBy = $membershipApprovedBy;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBoardApprovalStatus1()
+    {
+        return $this->boardApprovalStatus1;
+    }
+
+    /**
+     * @param mixed $boardApprovalStatus1
+     */
+    public function setBoardApprovalStatus1($boardApprovalStatus1)
+    {
+        $this->boardApprovalStatus1 = $boardApprovalStatus1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBoardApprovalStatus2()
+    {
+        return $this->boardApprovalStatus2;
+    }
+
+    /**
+     * @param mixed $boardApprovalStatus2
+     */
+    public function setBoardApprovalStatus2($boardApprovalStatus2)
+    {
+        $this->boardApprovalStatus2 = $boardApprovalStatus2;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBoardApprovalStatus3()
+    {
+        return $this->boardApprovalStatus3;
+    }
+
+    /**
+     * @param mixed $boardApprovalStatus3
+     */
+    public function setBoardApprovalStatus3($boardApprovalStatus3)
+    {
+        $this->boardApprovalStatus3 = $boardApprovalStatus3;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBoardRejectionAt()
+    {
+        return $this->boardRejectionAt;
+    }
+
+    /**
+     * @param mixed $boardRejectionAt
+     */
+    public function setBoardRejectionAt($boardRejectionAt)
+    {
+        $this->boardRejectionAt = $boardRejectionAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBoardRejectionBy()
+    {
+        return $this->boardRejectionBy;
+    }
+
+    /**
+     * @param mixed $boardRejectionBy
+     */
+    public function setBoardRejectionBy($boardRejectionBy)
+    {
+        $this->boardRejectionBy = $boardRejectionBy;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBoardRejectionReason()
+    {
+        return $this->boardRejectionReason;
+    }
+
+    /**
+     * @param mixed $boardRejectionReason
+     */
+    public function setBoardRejectionReason($boardRejectionReason)
+    {
+        $this->boardRejectionReason = $boardRejectionReason;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsBoardRejected()
+    {
+        return $this->isBoardRejected;
+    }
+
+    /**
+     * @param mixed $isBoardRejected
+     */
+    public function setIsBoardRejected($isBoardRejected)
+    {
+        $this->isBoardRejected = $isBoardRejected;
+    }
+
 
 }

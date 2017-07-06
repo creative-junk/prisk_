@@ -32,6 +32,34 @@ class ProfileRepository extends EntityRepository
     /**
      * @return Profile[]
      */
+    public function findAllMembershipApprovedProfilesOrderByDate(){
+
+        return $this->createQueryBuilder('profile')
+            ->orderBy('profile.createdAt','DESC')
+            ->andWhere('profile.isPaid = :isPaid')
+            ->setParameter(':isPaid',true)
+            ->andWhere('profile.profileStatus = :isApproved')
+            ->setParameter(':isApproved',"Approved")
+            ->andWhere('profile.isMembershipApproved = :isMembershipApproved')
+            ->setParameter(':isMembershipApproved',true)
+            ->getQuery()
+            ->execute();
+    }
+    /**
+     * @return Profile[]
+     */
+    public function findAllBoardApprovedProfilesOrderByDate(){
+
+        return $this->createQueryBuilder('profile')
+            ->orderBy('profile.createdAt','DESC')
+            ->andWhere('profile.isBoardApproved = :isBoardApproved')
+            ->setParameter(':isBoardApproved',true)
+            ->getQuery()
+            ->execute();
+    }
+    /**
+     * @return Profile[]
+     */
     public function findAllApprovedProfilesOrderByDate(){
 
         return $this->createQueryBuilder('profile')

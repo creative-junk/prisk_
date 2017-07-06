@@ -1,0 +1,52 @@
+{% extends 'base.htm.twig' %}
+{% block title %}Document Submitted{% endblock %}
+{% block pageTitle %}<h2>Document Submitted</h2>{% endblock %}
+{% block breadCrumbs %}
+    <ol class="breadcrumb">
+        <li><i class="fa fa-home"></i></li>
+        <li><a href="http://prisk.or.ke/index.php/en" class="pathway">Home</a></li>
+        <li><a href="http://prisk.or.ke/index.php/en/membership" class="pathway">Membership</a></li>
+        <li><a href="http://prisk.or.ke/index.php/en/thinking-about-joining" class="pathway">Thinking about Joining</a></li>
+        <li><a href="#" class="pathway">Profile</a></li>
+        <li class="active">Document submitted</li>
+    </ol>
+{% endblock %}
+{% block body %}
+    <div id="sp-page-builder" class="sp-page-builder  page-1">
+
+        <div class="page-content">
+            <section class="sppb-section welcome-wrapper" style="padding:0px">
+                <div class="sppb-container">
+                    <div class="sppb-row">
+                        <div class="sppb-col-sm-6" style="">
+                            <div class="sppb-addon-container sppb-wow zoomIn sppb-animated"
+                                 style="visibility: visible; animation-duration: 800ms; animation-delay: 300ms; animation-name: zoomIn;"
+                                 data-sppb-wow-duration="800ms" data-sppb-wow-delay="300ms">
+                                <div class="sppb-addon sppb-addon-text-block sppb-text-left "><h6
+                                            class="sppb-addon-title" style="font-size:14px;line-height:14px;">Document Submitted</h6>
+
+                                    <div class="sppb-addon-content"> <p>Thank you for submitting your <b>
+                                            {% if(app.request.query.get("document")=="PASSPORT-PHOTO")  %}
+                                                Colour Passport-Size Photo
+                                            {% elseif(app.request.query.get("document")=="ID-COPY") %}
+                                                Copy of Valid National ID/Passport/Birth Certificate
+                                            {% elseif(app.request.query.get("document")=="KRA-PIN") %}
+                                                Copy of Kenya Revenue Authority ITAX Pin Certificate
+                                            {% elseif(app.request.query.get("document")=="NEXT-OF-KIN-ID") %}
+                                                Copy of Valid National ID/Passport or Birth Certificate Next of Kin
+                                            {% endif %}
+                                            </b>.<br/>
+                                            Kindly note that your profile will not be reviewed until <b>ALL</b> required documents are submitted..
+                                        <p><a class="btn bg-orange-400" href="{{ path('add-document',{id: app.request.query.get("profileId")}) }}">Click here  </a> to submit another document </p>
+                                        <br/>In the meantime, kindly send your recordings in <b>mp3</b> format to membership@prisk.or.ke.</p>
+                                        <p>--Thank you</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock body %}

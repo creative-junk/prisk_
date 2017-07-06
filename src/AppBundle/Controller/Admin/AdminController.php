@@ -93,7 +93,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/users/onboard/step2",name="onboarded-users")
+     * @Route("/users/onboard/step2",name="open-profiles")
      */
     public function profileAction(){
         $em = $this->getDoctrine()->getManager();
@@ -105,11 +105,37 @@ class AdminController extends Controller
             'users'=>$users
         ]);
     }
+    /**
+     * @Route("/users/profiles/step1",name="membership-approved-profiles")
+     */
+    public function membershipApprovedProfileAction(){
+        $em = $this->getDoctrine()->getManager();
+
+        $users = $em->getRepository("AppBundle:Profile")
+            ->findAllMembershipApprovedProfilesOrderByDate();
+
+        return $this->render('admin/step-2-users.htm.twig',[
+            'users'=>$users
+        ]);
+    }
 
     /**
-     * @Route("/profiles/approved",name="approved-users")
+     * @Route("/users/profiles/step2",name="board-approved-users")
      */
     public function approvedProfileAction(){
+        $em = $this->getDoctrine()->getManager();
+
+        $users = $em->getRepository("AppBundle:Profile")
+            ->findAllBoardApprovedProfilesOrderByDate();
+
+        return $this->render('admin/boardApproved-users.htm.twig',[
+            'users'=>$users
+        ]);
+    }
+    /**
+     * @Route("/members",name="members")
+     */
+    public function membersAction(){
         $em = $this->getDoctrine()->getManager();
 
         $users = $em->getRepository("AppBundle:Profile")
@@ -191,10 +217,18 @@ class AdminController extends Controller
 
             if ($approval =="Approved"){
                 $profile->setProfileStatus("Approved");
-                $twigTemplate = "approved.htm.twig";
+                $profile->setIsMembershipApproved(true);
+                $profile->setMembershipApprovedAt(new \DateTime());
+                $profile->setMembershipApprovedBy($user);
+
+                $twigTemplate = "membershipApproved.htm.twig";
                 $accountStatus = "Prisk Portal Profile Approved";
             }else{
                 $profile->setProfileStatus("Rejected");
+                $profile->setIsMembershipApproved(false);
+                $profile->setMembershipApprovedBy($user);
+                $profile->setMembershipApprovedAt(new \DateTime());
+
                 $twigTemplate = "rejected.htm.twig";
                 $accountStatus = "Prisk Portal Profile Status";
             }
@@ -208,13 +242,14 @@ class AdminController extends Controller
 
             $this->sendEmail($profile->getFirstName(),$accountStatus,$profile->getEmailAddress(),$twigTemplate,null);
 
-            return $this->redirectToRoute('approved-users');
+            return $this->redirectToRoute('open-profiles');
         }
         return $this->render('admin/profile/review.htm.twig',[
             'profile'=>$profile,
             'profileReviewForm' => $form->createView()
         ]);
     }
+
     /**
      * @Route("/users/profile/{id}/pdf",name="pdf-profile")
      */
@@ -442,5 +477,13 @@ class AdminController extends Controller
             'profile' =>$profile
         ]);
 
+    }
+
+    /**
+     * @Route("/request/{id}/documents",name="request-documents")
+     */
+    public function requestDocumentsAction(Request $request,Profile $profile){
+        $this->sendEmail($profile->getFirstName(),"Request for Documents",$profile->getEmailAddress(),'documents.htm.twig',$profile->getId());
+        return new Response(null,200);
     }
 }

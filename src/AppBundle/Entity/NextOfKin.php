@@ -93,6 +93,10 @@ class NextOfKin
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      */
     private $whoseKin;
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Profile")
+     */
+    private $profileKin;
 
     /**
      * @return mixed
@@ -340,6 +344,22 @@ class NextOfKin
     public function setWhoseKin($whoseKin)
     {
         $this->whoseKin = $whoseKin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfileKin()
+    {
+        return $this->profileKin;
+    }
+
+    /**
+     * @param Profile $profileKin
+     */
+    public function setProfileKin($profileKin)
+    {
+        $this->profileKin = $profileKin;
     }
 
 

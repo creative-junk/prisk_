@@ -104,6 +104,15 @@ vich_uploader:
                 delete_on_update:   true
                 delete_on_remove:   true
 
+            profile_documents:
+                uri_prefix:         /assets/documents
+                upload_destination: '%kernel.root_dir%/../web/assets/documents'
+                namer:              vich_uploader.namer_uniqid
+
+                inject_on_load:     false
+                delete_on_update:   true
+                delete_on_remove:   true
+
 #Crysoft Mpesa Bundle
 crysoft_mpesa:
     mpesa:

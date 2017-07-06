@@ -13,6 +13,9 @@
     src: url('icons/glyphicons/glyphicons-halflings-regular.eot');
     src: url('icons/glyphicons/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('icons/glyphicons/glyphicons-halflings-regular.woff2') format('woff2'), url('icons/glyphicons/glyphicons-halflings-regular.woff') format('woff'), url('icons/glyphicons/glyphicons-halflings-regular.ttf') format('truetype'), url('icons/glyphicons/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
+.messages,.error,.failure{
+    display:none;
+}
 .box {
     position: relative;
     border-radius: 3px;
@@ -105,8 +108,7 @@
 .radio input[type=radio]{
     position: relative;
 }
-.col-md-6
-.form-group.has-feedback ul li,.col-md-6 .form-group ul li{
+.col-md-6 .form-group.has-feedback ul li,.col-md-6 .form-group ul li{
     color:red;
 }
 .alert-danger {
