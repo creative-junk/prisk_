@@ -19,5 +19,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="jquery-2.0.3" level="application" />
+    <orderEntry type="library" name="bootstrap-editable" level="application" />
   </component>
 </module>

@@ -2498,7 +2498,7 @@ body {
 .nav-active-grey .nav > li.active > a {
   color: rgba(255, 255, 255, 0.87) !important;
   background-color: #424242 !important; }
-
+/**
 .ui-icon {
   display: inline-block;
   text-align: center;
@@ -2546,7 +2546,7 @@ body {
     background-color: #f8f8f8; }
   .ui-icon.white:after {
     background-color: #fff; }
-
+*/
 .item {
   position: relative; }
   .item .top {

@@ -1,7 +1,23 @@
 {% extends 'adminBase.htm.twig' %}
 {% block title %}Board Approved Users{% endblock %}
 {% block javascripts %}
+
+    <!-- jqueryui -->
+    <link href="{{ asset('js/jquery-ui-1.12.1/jquery-ui.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/jquery-ui-1.12.1/jquery-ui.js') }}"></script>
+
+    <!-- x-editable (jquery) -->
+    <link href="{{ asset('js/jqueryui-editable/css/jqueryui-editable.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/jqueryui-editable/js/jqueryui-editable.min.js') }}"></script>
     <script type="text/javascript">
+        $(document).ready(function () {
+            $.fn.editable.defaults.mode = 'inline';
+
+            //make MemberNumber editable
+            $('#memberNumber').editable({
+
+            });
+        });
         jQuery('#js-create-account').on('click',function (e)  {
             //Prevent Normal Submit
             e.preventDefault();
@@ -42,6 +58,9 @@
                     .removeClass('fa-spin')
                     .addClass('fa-times');
             })
+
+
+
 
         });
 
@@ -96,21 +115,22 @@
                                 <tr>
                                     <td><a style="color:#0cc2aa" href="{{ path('review-profile',{'id': user.id }) }}">{{ user.fullName }}</a></td>
                                     <td>
-                                        {% if user.memberNumber=="" %}
+                                        {% if user.memberNumber =="" %}
+                                            <a href="#" id="memberNumber" data-type="text" data-pk="{{ user.id }}" data-url="{{ path('update-member-number') }}" data-title="Enter Member Number">Click to add</a>
                                         {% else %}
                                         {{ user.memberNumber }}
-                                        {% endif %}
+                                            {% endif %}
                                             </td>
                                     <td>{{ user.stageName }}</td>
                                     <td>{{ user.emailAddress }}</td>
                                     <td>{{ user.createdAt | date("F jS \\a\\t g:ia") }}</td>
                                     <td>
-                                        <a href="{{ path('review-profile',{'id': user.id }) }}"
-                                           class="btn btn-xs white btn-icon"><i title="Export" class="fa fa-file-pdf-o"></i></a>
+
                                        {% if user.accountCreated=="" %}
                                            {% if user.memberNumber =="" %}
 
                                            {% else %}
+
                                                <a id="js-create-account" href="#" data-url="{{ path('create-account',{'id': user.id }) }}"
                                                   class="btn btn-xs white btn-icon"><i title="Create Account" id="create-account" class="fa fa-plus-circle"></i></a>
 
@@ -118,6 +138,8 @@
 
 
                                        {% else %}
+                                           <a href="{{ path('pdf-profile',{'id': user.id }) }}"
+                                              class="btn btn-xs white btn-icon"><i title="Export" class="fa fa-file-pdf-o"></i></a>
                                            <a href="{{ path('next-of-kin',{'id': user.id }) }}"
                                               class="btn btn-xs white btn-icon"><i title="Next of Kin" id="create-account" class="fa fa-id-badge"></i></a>
                                        {% endif %}

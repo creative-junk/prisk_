@@ -21,143 +21,11 @@ use WhiteOctober;
 
 /**
  * @Route("/admin")
- * @Security("is_granted('ROLE_ADMIN')")
+ * @Security("is_granted('ROLE_ADMINISTRATOR')")
  *
  */
 class AdminController extends Controller
 {
-    /**
-     * @Route("/",name="admin-home")
-     */
-    public function dashboardAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $nrOnboards = $em->getRepository("AppBundle:Onboard")
-            ->findNrOnboards();
-        $nrProfiles = $em->getRepository("AppBundle:Profile")
-            ->findNrProfiles();
-        $nrApproved = $em->getRepository("AppBundle:Profile")
-            ->findNrApproved();
-        $nrRejected = $em->getRepository("AppBundle:Profile")
-            ->findNrRejected();
-        $nrUnderReview = $em->getRepository("AppBundle:Profile")
-            ->findNrUnderReview();
-        $nrUnpaidProfiles = $em->getRepository("AppBundle:Profile")
-            ->findNrUnpaidProfiles();
-        $nrNew = $em->getRepository("AppBundle:Profile")
-            ->findNrNew();
-        $nrPendingAccounts = $em->getRepository("AppBundle:User")
-            ->findNrPendingUsers();
-
-        $openProfiles = $em->getRepository("AppBundle:Profile")
-            ->findAllOpenProfilesOrderByDate();
-        $unpaidProfiles = $em->getRepository("AppBundle:Profile")
-            ->findAllUnpaidProfilesOrderByDate();
-        $users = $em->getRepository("AppBundle:User")
-            ->findAllUsers();
-        $recordings = $em->getRepository("AppBundle:Recording")
-            ->findAllRecordings();
-        $pendingUsers = $em->getRepository("AppBundle:User")
-            ->findAllPendingUsers();
-
-        return $this->render('admin/dashboard.htm.twig',[
-            'nrOnboards'=> $nrOnboards,
-            'nrProfiles'=> $nrProfiles,
-            'nrApproved' => $nrApproved,
-            'nrRejected' => $nrRejected,
-            'nrUnderReview'=> $nrUnderReview,
-            'nrUnpaidProfiles'=>$nrUnpaidProfiles,
-            'nrNew' => $nrNew,
-            'openProfiles'=>$openProfiles,
-            'unpaidProfiles' => $unpaidProfiles,
-            'users'=>$users,
-            'recordings'=>$recordings,
-            'pendingAccounts'=>$pendingUsers,
-            'nrPendingAccounts' => $nrPendingAccounts
-        ]);
-    }
-
-    /**
-     * @Route("/users/onboard/step1",name="new-users")
-     */
-    public function onBoardAction(){
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $em->getRepository("AppBundle:Onboard")
-            ->findAllUsers();
-
-        return $this->render('admin/step-1-users.htm.twig',[
-            'users' => $users
-        ]);
-    }
-
-    /**
-     * @Route("/users/onboard/step2",name="open-profiles")
-     */
-    public function profileAction(){
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $em->getRepository("AppBundle:Profile")
-            ->findAllOpenProfilesOrderByDate();
-
-        return $this->render('admin/step-2-users.htm.twig',[
-            'users'=>$users
-        ]);
-    }
-    /**
-     * @Route("/users/profiles/step1",name="membership-approved-profiles")
-     */
-    public function membershipApprovedProfileAction(){
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $em->getRepository("AppBundle:Profile")
-            ->findAllMembershipApprovedProfilesOrderByDate();
-
-        return $this->render('admin/step-2-users.htm.twig',[
-            'users'=>$users
-        ]);
-    }
-
-    /**
-     * @Route("/users/profiles/step2",name="board-approved-users")
-     */
-    public function approvedProfileAction(){
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $em->getRepository("AppBundle:Profile")
-            ->findAllBoardApprovedProfilesOrderByDate();
-
-        return $this->render('admin/boardApproved-users.htm.twig',[
-            'users'=>$users
-        ]);
-    }
-    /**
-     * @Route("/members",name="members")
-     */
-    public function membersAction(){
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $em->getRepository("AppBundle:Profile")
-            ->findAllApprovedProfilesOrderByDate();
-
-        return $this->render('admin/approved-users.htm.twig',[
-            'users'=>$users
-        ]);
-    }
-    /**
-     * @Route("/profiles/pending",name="pending-accounts")
-     */
-    public function pendingProfileAction(){
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $em->getRepository("AppBundle:User")
-            ->findAllPendingUsers();
-
-        return $this->render('admin/pending-accounts.htm.twig',[
-            'users'=>$users
-        ]);
-    }
     /**
      * @Route("/users/admin/pending",name="pending-admin-accounts")
      */
@@ -185,198 +53,6 @@ class AdminController extends Controller
         ]);
     }
     /**
-     * @Route("/profiles/rejected",name="rejected-users")
-     */
-    public function rejectedProfileAction(){
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $em->getRepository("AppBundle:Profile")
-            ->findAllRejectedProfilesOrderByDate();
-
-        return $this->render('admin/rejected-users.htm.twig',[
-            'users'=>$users
-        ]);
-    }
-
-    /**
-     * @Route("/users/profile/{id}/review",name="review-profile")
-     */
-    public function reviewProfileAction(Request $request, Profile $profile){
-
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-
-        $em = $this->getDoctrine()->getManager();
-
-        $form = $this->createForm(ProfileReviewForm::class);
-
-        $form->handleRequest($request);
-
-        if ($form->isValid() && $form->isSubmitted()){
-            $comment = $request->request->get('comment');
-            $approval = $request->request->get('approval');
-
-            if ($approval =="Approved"){
-                $profile->setProfileStatus("Approved");
-                $profile->setIsMembershipApproved(true);
-                $profile->setMembershipApprovedAt(new \DateTime());
-                $profile->setMembershipApprovedBy($user);
-
-                $twigTemplate = "membershipApproved.htm.twig";
-                $accountStatus = "Prisk Portal Profile Approved";
-            }else{
-                $profile->setProfileStatus("Rejected");
-                $profile->setIsMembershipApproved(false);
-                $profile->setMembershipApprovedBy($user);
-                $profile->setMembershipApprovedAt(new \DateTime());
-
-                $twigTemplate = "rejected.htm.twig";
-                $accountStatus = "Prisk Portal Profile Status";
-            }
-
-            $profile->setStatusDescription($comment);
-            $profile->setProcessedBy($user);
-            $profile->setProcessedAt(new \DateTime());
-
-            $em->persist($profile);
-            $em->flush();
-
-            $this->sendEmail($profile->getFirstName(),$accountStatus,$profile->getEmailAddress(),$twigTemplate,null);
-
-            return $this->redirectToRoute('open-profiles');
-        }
-        return $this->render('admin/profile/review.htm.twig',[
-            'profile'=>$profile,
-            'profileReviewForm' => $form->createView()
-        ]);
-    }
-
-    /**
-     * @Route("/users/profile/{id}/pdf",name="pdf-profile")
-     */
-    public function pdfProfileAction(Request $request, Profile $profile){
-
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-
-
-        $html = $this->renderView('admin/profile/profilePDF.htm.twig',[
-            'profile'=>$profile,
-
-        ]);
-
-        $this->returnPDFResponseFromHTML($html);
-    }
-    public function returnPDFResponseFromHTML($html){
-        //set_time_limit(30); uncomment this line according to your needs
-
-        $pdf = $this->get("white_october.tcpdf")->create('vertical', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
-        $pdf->SetTitle(('Profile Review'));
-        $pdf->SetSubject('Profile Review');
-        $pdf->setFontSubsetting(true);
-        $pdf->SetFont('helvetica', '', 11, '', true);
-        $pdf->SetMargins(20,20,40, true);
-        $pdf->AddPage();
-
-        $filename = 'profile';
-
-        $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-        $pdf->Output($filename.".pdf",'I'); // This will output the PDF as a response directly
-    }
-    /**
-     * @Route("/account/{id}/new",name="create-account")
-     */
-    public function createAccountAction(Request $request,Profile $profile){
-       $admin = $this->get('security.token_storage')->getToken()->getUser();
-
-       $em = $this->getDoctrine()->getManager();
-        
-         $accountToken = base64_encode($profile->getIdNumber());
-        
-        $user = new User();
-        $user->setIsActive(true);
-        $user->setEmail($profile->getEmailAddress());
-        $user->setFirstName($profile->getFirstName());
-        $user->setLastName($profile->getLastName());
-        $user->setIsPasswordCreated(false);
-        $user->setMyProfile($profile);
-        $user->setRoles(["ROLE_USER"]);
-        $user->setPlainPassword($profile->getIdNumber());
-        $user->setProfileLinkedAt(new \DateTime());
-        $user->setAccountCreatedBy($admin);
-        $user->setPasswordResetToken($accountToken);
-
-        $profile->setAccountCreated("Created");
-
-        $em->persist($profile);
-        $em->persist($user);
-
-        $em->flush();
-
-        $this->sendEmail($profile->getFirstName(),"Your Prisk Portal Account",$profile->getEmailAddress(),"accountCreated.htm.twig",$accountToken);
-
-        return new Response(null, 204);
-    }
-
-
-    /**
-     * @Route("/user/account/{id}/reset",name="request-password-reset")
-     */
-    public function requestPasswordResetAction(Request $request, User $user){
-
-        $em = $this->getDoctrine()->getManager();
-
-        $resetToken = base64_encode(random_bytes(10));
-
-        $user->setPlainPassword($resetToken."12");
-        $user->setPasswordResetToken($resetToken);
-        $user->setIsResetTokenValid(true);
-
-        $em->persist($user);
-        $em->flush();
-
-        $this->sendEmail($user->getFirstName(),"Password Reset",$user->getEmail(),"passwordReset.htm.twig",$resetToken);
-
-        return new Response(null,204);
-    }
-    /**
-     * @Route("/user/account/{id}/deactivate",name="deactivate-account")
-     */
-    public function deactivateAccountAction(Request $request, User $user){
-
-        $em = $this->getDoctrine()->getManager();
-
-        $resetToken = base64_encode(random_bytes(10));
-
-        $user->setPlainPassword($resetToken."12");
-        $user->setIsActive(false);
-
-        $em->persist($user);
-        $em->flush();
-
-        return new Response(null,204);
-    }
-    /**
-     * @Route("/user/account/{id}/activate",name="activate-account")
-     */
-    public function activateAccountAction(Request $request, User $user){
-
-        $em = $this->getDoctrine()->getManager();
-
-        $resetToken = base64_encode(random_bytes(10));
-
-        $user->setPlainPassword($resetToken."12");
-        $user->setPasswordResetToken($resetToken);
-        $user->setIsResetTokenValid(true);
-        $user->setIsActive(true);
-
-        $em->persist($user);
-        $em->flush();
-
-        $this->sendEmail($user->getFirstName(),"Password Reset",$user->getEmail(),"passwordReset.htm.twig",$resetToken);
-
-        return new Response(null,204);
-    }
-    /**
      * @Route("/user/account/{id}/approve",name="approve-admin-account")
      */
     public function approveAccountAction(Request $request, User $user){
@@ -402,16 +78,16 @@ class AdminController extends Controller
         $admin = $this->get('security.token_storage')->getToken()->getUser();
 
         $em = $this->getDoctrine()->getManager();
-        
+
         $accountToken = base64_encode(random_bytes(10));
-         
+
         $user = new User();
         $user->setIsActive(true);
         $user->setRoles(["ROLE_ADMIN"]);
         $user->setPlainPassword(base64_encode(random_bytes(10)));
         $user->setAccountCreatedBy($admin);
         $user->setPasswordResetToken($accountToken);
-        
+
         $form = $this->createForm(NewAdministratorForm::class,$user);
 
         $form->handleRequest($request);
@@ -428,10 +104,9 @@ class AdminController extends Controller
         }
 
         return $this->render(':admin:new.htm.twig',[
-           'adminForm'=>$form->createView()
+            'adminForm'=>$form->createView()
         ]);
     }
-
 
     protected function sendEmail($firstName,$subject,$emailAddress,$twigTemplate,$code){
         $message = \Swift_Message::newInstance()
@@ -450,40 +125,44 @@ class AdminController extends Controller
             );
         $this->get('mailer')->send($message);
     }
-    /**
-     * @Route("/next-of-kin/list/{id}",name="next-of-kin")
-     */
-    public function listKinAction(Request $request,Profile $profile){
 
+    /**
+     * @Route("/member/update",name="update-member")
+     */
+    public function updateRoleFunction(Request $request){
         $em = $this->getDoctrine()->getManager();
-        $user=$profile->getWhoseProfile();
 
-        $nextOfKin = $em->getRepository('AppBundle:NextOfKin')
-            ->findMyKin($user);
+        $memberId = $request->request->get('pk');
+        $roleValue = $request->request->get('value');
 
-        return $this->render('admin/nextofkin/list.htm.twig', [
-            'kinsList' => $nextOfKin,
-            'user' =>$user
-        ]);
+        switch ($roleValue) {
+            case 1:
+                $role = ["ROLE_MEMBERSHIP"];
+                break;
+            case 2:
+                $role = ["ROLE_BOARD"];
+                break;
+            case 3:
+                $role = ["ROLE_ADMINISTRATOR"];
+                break;
+            default:
+                $role = ["ROLE_MEMBERSHIP"];
+                break;
+        }
+
+        $member = $em->getRepository("AppBundle:User")
+            ->findOneBy([
+                'id'=>$memberId
+            ]);
+
+        if ($member){
+            $member->setRoles($role);
+            $em->persist($member);
+            $em->flush();
+            return new Response(null,200);
+        }else{
+            return new Response(null,500);
+        }
     }
-    /**
-     * @Route("/next-of-kin/view/{id}",name="admin-view-kin-details")
-     */
-    public function viewNextOfKinAction(Request $request,NextOfKin $nextOfKin){
-        $user = $nextOfKin->getWhoseKin();
-        $profile = $user->getMyProfile();
-        return $this->render('admin/nextofkin/details.htm.twig', [
-            'nextOfKin' => $nextOfKin,
-            'profile' =>$profile
-        ]);
 
-    }
-
-    /**
-     * @Route("/request/{id}/documents",name="request-documents")
-     */
-    public function requestDocumentsAction(Request $request,Profile $profile){
-        $this->sendEmail($profile->getFirstName(),"Request for Documents",$profile->getEmailAddress(),'documents.htm.twig',$profile->getId());
-        return new Response(null,200);
-    }
 }

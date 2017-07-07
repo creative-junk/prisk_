@@ -5,12 +5,13 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Entity\Profile;
 use AppBundle\Form\ProfileReviewForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/board")
- *
+ * @Security("is_granted('ROLE_ADMIN')")
  */
 class BoardController extends Controller
 {

@@ -1,7 +1,27 @@
 {% extends 'adminBase.htm.twig' %}
 {% block title %}Administrators{% endblock %}
 {% block javascripts %}
+
+    <!-- jqueryui -->
+    <link href="{{ asset('js/jquery-ui-1.12.1/jquery-ui.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/jquery-ui-1.12.1/jquery-ui.js') }}"></script>
+
+    <!-- x-editable (jquery) -->
+    <link href="{{ asset('js/jqueryui-editable/css/jqueryui-editable.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/jqueryui-editable/js/jqueryui-editable.min.js') }}"></script>t
     <script type="text/javascript">
+        $(document).ready(function () {
+            $.fn.editable.defaults.mode = 'inline';
+
+            //make MemberNumber editable
+            $('a#member').editable({
+                source: [
+                    {value: 1, text: 'Membership'},
+                    {value: 2, text: 'Board'},
+                    {value: 3, text: 'Administrator'}
+                ]
+            });
+        });
         jQuery('#js-deactivate-account').on('click',function (e)  {
             //Prevent Normal Submit
             e.preventDefault();
@@ -126,7 +146,7 @@
                             <thead>
                             <tr>
                                 <th  style="width:20%">Names</th>
-                                <th  style="width:15%">Email</th>
+                                <th  style="width:15%">Role</th>
                                 <th  style="width:25%">Created At</th>
                                 <th  style="width:25%">Last Login</th>
                                 <th  style="width:15%">Status</th>
@@ -138,7 +158,23 @@
                                 <tr>
                                     <td><span style="color:#0cc2aa">{{ user.fullName }}</span></td>
 
-                                    <td>{{ user.email }}</td>
+                                    <td>
+                                        <a href="#" id="member" data-type="select" data-pk="{{ user.id }}" data-url="{{ path('update-member') }}" data-title="Select Role">                                      {% for role in user.roles %}
+                                                {% if(role =="ROLE_MEMBERSHIP") %}
+                                                    Membership
+                                                {% elseif(role =="ROLE_BOARD") %}
+                                                    Board
+                                                {% elseif(role =="ROLE_ADMINISTRATOR") %}
+                                                    Administrator
+                                                {% elseif(role =="ROLE_ADMIN") %}
+                                                    Admin
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </a>
+
+
+                                    </td>
                                     <td>{{ user.accountCreatedAt | date("F jS \\a\\t g:ia") }}</td>
                                     <td>
                                         {% if user.lastLoginTime != "" %}

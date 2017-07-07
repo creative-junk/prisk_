@@ -49,7 +49,7 @@ class Documents
      */
     private $documentName;
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Profile")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Profile",inversedBy="profileDocuments")
      */
     private $whichProfile;
 

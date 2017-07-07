@@ -42,6 +42,8 @@ class ProfileRepository extends EntityRepository
             ->setParameter(':isApproved',"Approved")
             ->andWhere('profile.isMembershipApproved = :isMembershipApproved')
             ->setParameter(':isMembershipApproved',true)
+            ->andWhere('profile.isBoardApproved = :isBoardApproved')
+            ->setParameter(':isBoardApproved',false)
             ->getQuery()
             ->execute();
     }
@@ -66,8 +68,8 @@ class ProfileRepository extends EntityRepository
             ->orderBy('profile.createdAt','DESC')
             ->andWhere('profile.isPaid = :isPaid')
             ->setParameter(':isPaid',true)
-            ->andWhere('profile.profileStatus = :isApproved')
-            ->setParameter(':isApproved',"Approved")
+            ->andWhere('profile.isBoardApproved = :isBoardApproved')
+            ->setParameter(':isBoardApproved',true)
             ->getQuery()
             ->execute();
     }

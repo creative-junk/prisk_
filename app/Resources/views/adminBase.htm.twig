@@ -38,7 +38,14 @@
     <!-- ############ LAYOUT START-->
     {% block left %}
     <!-- aside -->
-    {{ include(':partials/admin:left.htm.twig') }}
+    {% if is_granted('ROLE_BOARD') %}
+        {{ include('admin/partials/boardLeft.htm.twig') }}
+    {% elseif is_granted('ROLE_MEMBERSHIP') %}
+        {{ include('admin/partials/membershipLeft.htm.twig') }}
+    {% elseif is_granted('ROLE_ADMINISTRATOR') %}
+        {{ include('admin/partials/adminLeft.htm.twig') }}
+    {% endif %}
+
     <!-- / -->
     {% endblock %}
     <!-- content -->

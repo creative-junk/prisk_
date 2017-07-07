@@ -174,7 +174,16 @@
 
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6"><strong>Member Number:&nbsp;&nbsp; </strong>
+                                {% if profile.memberNumber %}
+                                    {{ profile.memberNumber }}
+                                {% else %}
+                                    Member Number Pending
+                                {% endif %}
+                            </div>
 
+                        </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
