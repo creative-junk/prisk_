@@ -264,7 +264,7 @@ class Profile
      */
     private $isMembershipApproved;
     /**
-     * @ORM\ManyToOne(targetEntity="user")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      */
     private $membershipApprovedBy;
     /**
