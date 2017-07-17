@@ -56,15 +56,8 @@ class UserRepository extends EntityRepository
     public function findAllAdministratorUsers(){
 
         return $this->createQueryBuilder('user')
-            ->orWhere('user.roles = :isAdmin')
-            ->setParameter(':isAdmin','["ROLE_ADMIN"]')
-            ->orWhere('user.roles = :isAdministrator')
-            ->setParameter(':isAdministrator','["ROLE_ADMINISTRATOR"]')
-            ->orWhere('user.roles = :isMembership')
-            ->setParameter(':isMembership','["ROLE_MEMBERSHIP"]')
-            ->orWhere('user.roles = :isBoard')
-            ->setParameter(':isBoard','["ROLE_BOARD"]')
-            ->orderBy('user.profileLinkedAt','ASC')
+            ->orWhere('user.roles != :isAdmin')
+            ->setParameter(':isAdmin','["ROLE_USER"]')
             ->getQuery()
             ->execute();
     }

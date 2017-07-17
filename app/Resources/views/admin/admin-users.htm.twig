@@ -17,8 +17,9 @@
             $('a#member').editable({
                 source: [
                     {value: 1, text: 'Membership'},
-                    {value: 2, text: 'Board'},
-                    {value: 3, text: 'Administrator'}
+                    {value: 2, text: 'Music-Director'},
+                    {value: 3, text: 'Actor-Director'},
+                    {value: 4, text: 'Administrator'}
                 ]
             });
         });
@@ -164,6 +165,10 @@
                                                     Membership
                                                 {% elseif(role =="ROLE_BOARD") %}
                                                     Board
+                                                {% elseif(role =="ROLE_MUSIC_DIRECTOR") %}
+                                                    Music Director
+                                                {% elseif(role =="ROLE_ACTOR_DIRECTOR") %}
+                                                    Actor Director
                                                 {% elseif(role =="ROLE_ADMINISTRATOR") %}
                                                     Administrator
                                                 {% elseif(role =="ROLE_ADMIN") %}

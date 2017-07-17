@@ -6,6 +6,8 @@ security:
            AppBundle\Entity\User: bcrypt
      role_hierarchy:
            ROLE_ADMINISTRATOR: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+           ROLE_ACTOR_DIRECTOR: [ROLE_BOARD]
+           ROLE_MUSIC_DIRECTOR: [ROLE_BOARD]
            ROLE_MEMBERSHIP: [ROLE_ADMIN]
            ROLE_BOARD: [ROLE_ADMIN]
        # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded

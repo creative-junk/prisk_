@@ -41,7 +41,7 @@
                             </div>
                             <div class="clear">
                                 <h4 class="m-a-0 text-lg _300"><a href="{{ path('open-profiles') }}">{{ nrProfiles }} <span
-                                                class="text-sm">Profile</span></a></h4>
+                                                class="text-sm">Applications</span></a></h4>
                                 <small class="text-muted">{{ nrUnderReview }} Under Review.</small>
                             </div>
                         </div>
@@ -61,13 +61,13 @@
                         </div>
                     </div>
                 </div>
-
+    {% if is_granted('ROLE_MEMBERSHIP') %}
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <div class="box">
                             <div class="box-header">
-                                <h3>Open Profiles <span class="label warning">{{ nrUnderReview }}</span></h3>
-                                <small>Profiles Under Review ( Status: Paid )</small>
+                                <h3>Open Applications <span class="label warning">{{ nrUnderReview }}</span></h3>
+                                <small>Applications Under Review ( Status: Paid )</small>
                             </div>
                             <ul class="list inset">
                                 {% for openProfile in openProfiles %}
@@ -99,8 +99,8 @@
                     <div class="col-sm-12 col-md-6">
                         <div class="box">
                             <div class="box-header">
-                                <h3>Unpaid Profiles <span class="label warning">{{ nrUnpaidProfiles }}</span></h3>
-                                <small>Completed Unpaid Profiles</small>
+                                <h3>Unpaid Applications <span class="label warning">{{ nrUnpaidProfiles }}</span></h3>
+                                <small>Completed Unpaid Applications</small>
                             </div>
                             <ul class="list inset">
                                 {% for unpaidProfile in unpaidProfiles %}
@@ -133,6 +133,8 @@
                         </div>
                     </div>
                 </div>
+        {% endif %}
+                {% if is_granted('ROLE_ADMINISTRATOR') %}
                 <div class="row">
                     <div class="col-sm-6 col-md-4">
                         <div class="box">
@@ -224,6 +226,7 @@
                         </div>
                     </div>
                 </div>
+        {% endif %}
             </div>
 
             <!-- ############ PAGE END-->

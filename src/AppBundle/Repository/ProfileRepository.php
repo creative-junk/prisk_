@@ -36,14 +36,41 @@ class ProfileRepository extends EntityRepository
 
         return $this->createQueryBuilder('profile')
             ->orderBy('profile.createdAt','DESC')
-            ->andWhere('profile.isPaid = :isPaid')
-            ->setParameter(':isPaid',true)
-            ->andWhere('profile.profileStatus = :isApproved')
-            ->setParameter(':isApproved',"Approved")
             ->andWhere('profile.isMembershipApproved = :isMembershipApproved')
-            ->setParameter(':isMembershipApproved',true)
-            ->andWhere('profile.isBoardApproved = :isBoardApproved')
-            ->setParameter(':isBoardApproved',false)
+            ->setParameter('isMembershipApproved',true)
+            ->andWhere('profile.isBoardApproved is NULL')
+            ->getQuery()
+            ->execute();
+    }
+    /**
+     * @return Profile[]
+     */
+    public function findAllMembershipApprovedActorProfilesOrderByDate(){
+
+        return $this->createQueryBuilder('profile')
+            ->orderBy('profile.createdAt','DESC')
+            ->andWhere('profile.rights LIKE :actor')
+            ->setParameter('actor','%Audio Visual - Actor%')
+            ->andWhere('profile.isMembershipApproved = :isMembershipApproved')
+            ->setParameter('isMembershipApproved',true)
+            ->andWhere('profile.isBoardApproved is NULL')
+            ->getQuery()
+            ->execute();
+    }
+    /**
+     * @return Profile[]
+     */
+    public function findAllMembershipApprovedMusicianProfilesOrderByDate(){
+
+        return $this->createQueryBuilder('profile')
+            ->orderBy('profile.createdAt','DESC')
+            ->orWhere('profile.rights LIKE :musician')
+            ->setParameter('musician','%Sound Recording%')
+            ->orWhere('profile.rights LIKE :musicianaudio')
+            ->setParameter('musicianaudio','%Audio Visual - Musician%')
+            ->andWhere('profile.isMembershipApproved = :isMembershipApproved')
+            ->setParameter('isMembershipApproved',true)
+            ->andWhere('profile.isBoardApproved is NULL')
             ->getQuery()
             ->execute();
     }

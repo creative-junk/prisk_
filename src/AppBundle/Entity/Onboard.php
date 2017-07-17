@@ -30,33 +30,33 @@ class Onboard
     private $id;
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Your first name MUST be provided")
      */
     private $firstName;
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Your last name MUST be provided")
      */
     private $lastName;
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Your stage name MUST be provided")
      */
     private $stageName;
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "This value should not be blank")
      */
     private $idNumber;
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\Email(message = "Your email address MUST be provided")
      */
     private $email;
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Kindly accept the Terms and Conditions")
      */
     private $termsOfService;
     /**

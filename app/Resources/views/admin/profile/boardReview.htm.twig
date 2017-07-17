@@ -358,7 +358,13 @@
                                     <p>This member has submitted the following documents</p>
                                     <ol>
                                         {% for profileDocument in profile.profileDocuments %}
-                                            <li><b><i>{{ profileDocument.documentName }}</i></b></li>
+                                            <li><b><i>{{ profileDocument.documentName }}</i></b><br/>
+                                                {% if profileDocument.documentFileName|last == 'g' %}
+                                                    <img width="200" src="{{ asset('assets/documents/') }}{{ profileDocument.documentFileName }}"/>
+                                                {% else %}
+                                                    <a href="{{ asset('assets/documents/') }}{{ profileDocument.documentFileName }}">Click to view</a>
+                                                {% endif %}
+                                            </li>
                                         {% endfor  %}
                                     </ol>
                                 {% else %}

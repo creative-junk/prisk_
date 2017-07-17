@@ -122,7 +122,7 @@ class ProfileForm extends AbstractType
                     'Audio Visual - Musician'=>'Audio Visual - Musician',
                 ),
                 'multiple'=>true,
-                'label'=>'Rights (Hold CTRL and Click to select multiple)'
+                'label'=>'Type of Member (Hold CTRL and Click to select multiple)'
 
             ))
             ->add('physicalAddress')

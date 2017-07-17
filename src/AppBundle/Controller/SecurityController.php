@@ -181,6 +181,7 @@ class SecurityController extends Controller
     public function accountCreatedAction(Request $request){
         return $this->render(':admin:created.htm.twig');
     }
+
     /**
      * @Route("/login/admin",name="admin-login")
      *

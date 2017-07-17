@@ -140,9 +140,12 @@ class AdminController extends Controller
                 $role = ["ROLE_MEMBERSHIP"];
                 break;
             case 2:
-                $role = ["ROLE_BOARD"];
+                $role = ["ROLE_MUSIC_DIRECTOR"];
                 break;
             case 3:
+                $role = ["ROLE_ACTOR_DIRECTOR"];
+                break;
+            case 4:
                 $role = ["ROLE_ADMINISTRATOR"];
                 break;
             default:

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/board")
- * @Security("is_granted('ROLE_ADMIN')")
+ * @Security("is_granted('ROLE_BOARD')")
  */
 class BoardController extends Controller
 {
@@ -88,6 +88,32 @@ class BoardController extends Controller
         return $this->render('admin/profile/boardReview.htm.twig',[
             'profile'=>$profile,
             'boardReviewForm' => $form->createView()
+        ]);
+    }
+    /**
+     * @Route("/users/applications/actors",name="membership-approved-actor-profiles")
+     */
+    public function membershipApprovedProfileAction(){
+        $em = $this->getDoctrine()->getManager();
+
+        $users = $em->getRepository("AppBundle:Profile")
+            ->findAllMembershipApprovedActorProfilesOrderByDate();
+
+        return $this->render('admin/membership-approved.htm.twig',[
+            'users'=>$users
+        ]);
+    }
+    /**
+     * @Route("/users/applications/music",name="membership-approved-music-profiles")
+     */
+    public function membershipApprovedMusicianProfileAction(){
+        $em = $this->getDoctrine()->getManager();
+
+        $users = $em->getRepository("AppBundle:Profile")
+            ->findAllMembershipApprovedMusicianProfilesOrderByDate();
+
+        return $this->render('admin/membership-approved.htm.twig',[
+            'users'=>$users
         ]);
     }
     protected function sendEmail($firstName,$subject,$emailAddress,$twigTemplate,$code){

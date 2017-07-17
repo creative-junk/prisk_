@@ -5,6 +5,7 @@
 {% block body %}
     <!-- ############ LAYOUT START-->
     <div class="center-block w-xxl w-auto-xs p-y-md">
+
         <div class="navbar">
             <div class="pull-center">
                 <div ui-include="'../views/blocks/navbar.brand.html'"></div>
@@ -13,6 +14,12 @@
         <div class="p-a-md box-color r box-shadow-z1 text-color m-a">
             <div class="m-b text-sm">
                 Sign in with your Admin Account
+
+                        {% if error %}
+                            <div class="alert alert-danger">
+                                {{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
             </div>
             {{ form_start(loginForm) }}
                 <div class="md-form-group float-label">

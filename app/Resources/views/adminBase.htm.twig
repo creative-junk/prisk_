@@ -38,10 +38,12 @@
     <!-- ############ LAYOUT START-->
     {% block left %}
     <!-- aside -->
-    {% if is_granted('ROLE_BOARD') %}
-        {{ include('admin/partials/boardLeft.htm.twig') }}
-    {% elseif is_granted('ROLE_MEMBERSHIP') %}
+    {% if is_granted('ROLE_MEMBERSHIP') %}
         {{ include('admin/partials/membershipLeft.htm.twig') }}
+    {% elseif is_granted('ROLE_ACTOR_DIRECTOR') %}
+        {{ include('admin/partials/actor-directorLeft.htm.twig') }}
+    {% elseif is_granted('ROLE_MUSIC_DIRECTOR') %}
+        {{ include('admin/partials/music-directorLeft.htm.twig') }}
     {% elseif is_granted('ROLE_ADMINISTRATOR') %}
         {{ include('admin/partials/adminLeft.htm.twig') }}
     {% endif %}
