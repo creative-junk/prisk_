@@ -1,0 +1,69 @@
+{% extends 'base.htm.twig' %}
+
+{% block body %}
+    <h2>Mpesa Confirmation</h2>
+
+    <div class="row">
+        <div class="">
+            <div class="panel registration-form">
+                <div class="panel-body">
+                    <div class="row">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="{{ asset('images/M-PESA.jpg') }}" width="150"/>
+                        </div>
+                        <h6>Profile Complete</h6>
+                        <p>Thank you for completing your profile.</p>
+                        <p> If you are seeing this page, you have either chosen to verify your Mpesa Payment at later date or Mpesa is having delays in processing your payment.</p>
+                        <p>Below are the details you can use to check your payment status later.</p>
+                        <p>We have also sent you an email with these details for your reference.</p>
+                    </div>
+                    <div class="row">
+
+                    <ul style="list-style: none">
+                            <li> <b>Confirmation Link:</b> <a href="{{ path('verify-payment-later',{'id':profile}) }}">{{ path('verify-payment-later',{'id':profile}) }}</a> </li>
+                            <li> <b>Transaction ID:</b> {{ profile.verificationCode }}</li>
+
+                        </ul>
+
+                        <p>In the meantime, To complete your Profile, the following documents are <b>ALL</b> required as part of your application:</p>
+                            <ul style="list-style: none">
+
+                                <li>1. A Coloured Passport Size photograph </li>
+                                <li>&nbsp;</li>
+                                <li>2. Valid National Identity Card, Passport or Birth Certificate </li>
+                                <li>&nbsp;</li>
+                                <li>3. Kenya Revenue Authority ITAX Pin Certificate.</li>
+                                <li>&nbsp;</li>
+                                <li>4. Valid National Identity Card, Passport or Birth Certificate of Next of Kin.</li>
+
+                            </ul>
+                        <p>When you are ready, use the link below to upload the documents.</p>
+                        <p>
+                            <a href="http://localhost:8000/documents/{{ code }}/add">Click Here</a>.
+                        </p>
+                        <p>In the meantime, to complete your profile, kindly send your recordings in mp3 format to <b>membership@prisk.or.ke.</b></p>
+
+                    </div>
+
+                    <div class="text-right">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /registration form -->
+
+
+
+
+
+{% endblock %}
+
+
+

@@ -67,7 +67,7 @@
 
 
     </script>
- {% endblock %}
+{% endblock %}
 {% block breadCrumbs %}
     <ol class="breadcrumb">
         <li><i class="fa fa-home"></i></li>
@@ -79,7 +79,7 @@
     </ol>
 {% endblock %}
 {% block body %}
-      <style>
+    <style>
         @media only screen and (max-width: 640px) {
             .select{
                 max-width:340px;
@@ -98,26 +98,28 @@
                     <div class="row content-holder">
 
                         <h6>Required Documents</h6>
+                        <p><i>** The document should not exceed 2MB in size **</i></p>
                         <p>The following documents are <b>ALL</b> required as part of your application:</p>
 
                         <ul>
                             <ul style="list-style: none">
 
-                                <li>1. A Coloured Passport Size photograph </li>
+                                <li>
+                                    <input type="checkbox" disabled id="passport" value="">1. A Coloured Passport Size photograph </li>
                                 <li>&nbsp;</li>
-                                <li>2. Valid National Identity Card, Passport or Birth Certificate </li>
+                                <li><input type="checkbox" disabled id="idcopy" value="">2. Valid National Identity Card, Passport or Birth Certificate </li>
                                 <li>&nbsp;</li>
-                                <li>3. Kenya Revenue Authority ITAX Pin Certificate.</li>
+                                <li><input type="checkbox" disabled id="kra" value="">3. Kenya Revenue Authority ITAX Pin Certificate.</li>
                                 <li>&nbsp;</li>
-                                <li>4. Valid National Identity Card, Passport or Birth Certificate of Next of Kin.</li>
+                                <li><input type="checkbox" disabled id="nextofkin" value="">4. Valid National Identity Card, Passport or Birth Certificate of Next of Kin.</li>
 
                             </ul>
                         </ul>
-                         {% if profile.profileDocuments | length > 0 %}
-                         {% else %}
+                        {% if profile.profileDocuments | length > 0 %}
+                        {% else %}
                             <p>When you are ready, use the form below to upload the documents one at a time.</p>
 
-                         {% endif %}
+                        {% endif %}
                         <div class="page messages">
                             <div class="messages" style="">
                                 <div class="message-success success message">
@@ -148,6 +150,24 @@
                             <p>You have already submitted the following documents</p>
                             <ol>
                                 {% for profileDocument in profile.profileDocuments %}
+                                    {% if profileDocument.documentName == 'PASSPORT-PHOTO' %}
+                                    <script type="text/javascript">
+                                        document.getElementById("passport").checked = true;
+                                    </script>
+                                    {% elseif profileDocument.documentName == 'ID-COPY' %}
+                                    <script type="text/javascript">
+                                        document.getElementById("idcopy").checked = true;
+                                    </script>
+                                    {% elseif profileDocument.documentName == 'KRA-PIN' %}
+                                    <script type="text/javascript">
+                                        document.getElementById("kra").checked = true;
+                                    </script>
+                                    {% elseif profileDocument.documentName == 'NEXT-OF-KIN-ID' %}
+                                    <script type="text/javascript">
+                                        document.getElementById("nextofkin").checked = true;
+                                    </script>
+                                    {% endif %}
+
                                     <li><b><i>{{ profileDocument.documentName }}</i></b></li>
                                 {% endfor  %}
                             </ol>
@@ -156,47 +176,47 @@
                         {% endif %}
                         {% if profile.profileDocuments | length > 0 %}
                             {% if profile.profileDocuments | length < 4 %}
-                                 <p>Use the form below to upload the remaining documents one at a time.</p>
-                                {% endif %}
+                                <p>Use the form below to upload the remaining documents one at a time.</p>
+                            {% endif %}
                         {% endif %}
                     </div>
                     {% if profile.profileDocuments | length < 4 %}
                         {{ form_start(form,{'attr': {'id': 'addDocument'}}) }}
-                    <div class="row content-holder">
-                        <div class="col-md-9">
-                            <div class="form-group has-feedback">
-                                {{ form_row(form.documentName,{
+                        <div class="row content-holder">
+                            <div class="col-md-9">
+                                <div class="form-group has-feedback">
+                                    {{ form_row(form.documentName,{
 
-                                    'attr': {'class': 'select'}
-                                }) }}
-                                <div class="form-control-feedback">
-                                    <i class="icon-user-plus text-muted"></i>
+                                        'attr': {'class': 'select'}
+                                    }) }}
+                                    <div class="form-control-feedback">
+                                        <i class="icon-user-plus text-muted"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row content-holder">
-                        <div class="col-md-9">
-                            <div class="form-group has-feedback">
-                                {{ form_row(form.documentFile) }}
-                                <div class="form-control-feedback">
-                                    <i class="icon-user-plus text-muted"></i>
+                        <div class="row content-holder">
+                            <div class="col-md-9">
+                                <div class="form-group has-feedback">
+                                    {{ form_row(form.documentFile) }}
+                                    <div class="form-control-feedback">
+                                        <i class="icon-user-plus text-muted"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="">
-                        <input type="hidden" name="_pxc" value="{{ profile.id }}">
-                           <button id="addDoc" type="submit" style="background-color: #fd9614" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10" formnovalidate>
-                            <b><span id="add-the-doc" class="fa fa-plus-square"></span>&nbsp;&nbsp;</b> Submit
-                        </button>
-                    </div>
+                        <div class="">
+                            <input type="hidden" name="_pxc" value="{{ profile.id }}">
+                            <button id="addDoc" type="submit" style="background-color: #fd9614" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-10" formnovalidate>
+                                <b><span id="add-the-doc" class="fa fa-plus-square"></span>&nbsp;&nbsp;</b> Submit
+                            </button>
+                        </div>
                         {{ form_end(form) }}
-                        {% else %}
-                            <div class="alert alert-success">
-                                <strong>Success!</strong> All Required Documents have been uploaded.
-                            </div>
-                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-success">
+                            <strong>Success!</strong> All Required Documents have been uploaded.
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

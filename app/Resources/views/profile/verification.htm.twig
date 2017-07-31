@@ -51,8 +51,9 @@
                         {% elseif success == "Failed" %}
                         <h6>Payment Failed</h6>
                         <p>Oops Something went wrong with your payment.</p>
-                        <p>If you are seeing this message but the Mpesa payment completed and you received an Mpesa confirmation message, kindly <a style="color: #00a5bb" href="{{ path('verify-payment') }}"> Click here</a> to verify again. </p>
-                        
+                            <p>If you are seeing this message but the Mpesa payment completed and you received an Mpesa confirmation message, kindly <a style="color: #00a5bb" href="{{ path('verify-payment') }}"> Click here</a> to verify again.</p>
+                            <p>If you are seeing this message for a second time or have not yet reeceived the second confirmation message from Mpesa kindly <a style="color: #00a5bb" href="{{ path('verify-later',{'id': profile }) }}"> Click here</a> to verify your payment later. </p>
+                        <p></p>
                         <p> If the transaction failed or timed out, Kindly <a style="color: #00a5bb" href="{{ path('pay_mpesa') }}"> Click here</a> to try again.</p>
 
                         {% else %}

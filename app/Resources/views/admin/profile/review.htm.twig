@@ -357,18 +357,23 @@
 
                                 {% if profile.profileDocuments | length > 0 %}
                                     <p>This member has submitted the following documents</p>
-                                    <ol>
+                                    <table>
                                         {% for profileDocument in profile.profileDocuments %}
-                                            <li>
+                                            <tr>
+                                                <td width="200">
                                                 <b><i>{{ profileDocument.documentName }}</i></b>
-                                            {% if profileDocument.documentFileName|last == 'g' %}
-                                                <img src="{{ asset('assets/documents/')profileDocument.documentFileName }}"/>
-                                            {% else %}
-                                                <a href="{{ asset('assets/documents/')profileDocument.documentFileName }}">Click to view</a>
-                                            {% endif %}
-                                            </li>
+                                                </td><td width="200">
+                                                    {% if profileDocument.documentFileName|last == 'g' %}
+                                                    <img width="200" src="{{ asset('assets/documents/') }}{{ profileDocument.documentFileName }}"/>
+                                                {% else %}
+                                                    <div style="height: 115px;padding-top:30px">
+                                                    <a href="/assets/documents/{{ profileDocument.documentFileName }}">Click to view</a>
+                                                    </div>
+                                                {% endif %}
+                                                </td>
+                                            </tr>
                                         {% endfor  %}
-                                    </ol>
+                                    </table>
                                 {% else %}
                                     <p>This Profile does not have the required Documents</p>
                                 {% endif %}

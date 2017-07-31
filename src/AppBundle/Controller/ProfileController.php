@@ -14,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Test\Fixture\Entity\Shop\Product;
 
 class ProfileController extends Controller
 {
@@ -149,8 +150,77 @@ class ProfileController extends Controller
 
         } else {
             $success = "Failed";
+
         }
-        return $this->render(':profile:verification.htm.twig', ['profile' => $user, 'success' => $success]);
+        return $this->render(':profile:verification.htm.twig', [
+            'profile' => $user,
+            'success' => $success,
+            'transactionId'=>$transactionId
+        ]);
+    }
+    /**
+     * @Route("/profile/verify/{id}/later",name="verify-payment-later")
+     */
+    public function verifyPaymentAction(Request $request,Profile $profile)
+    {
+        $mpesa = new Mpesa($this->container);
+
+        $em = $this->getDoctrine()->getManager();
+        $transactionId = $profile->getMpesaVerificationCode();
+        $response = $mpesa->usingTransactionId($transactionId)->requestStatus();
+        //var_dump($response);exit;
+        $mpesaStatus = new MpesaStatus($response);
+        $customerNumber = $mpesaStatus->getCustomerNumber();
+        $transactionAmount = $mpesaStatus->getTransactionAmount();
+        $transactionStatus = $mpesaStatus->getTransactionStatus();
+        $transactionDate = $mpesaStatus->getTransactionDate();
+        $mPesaTransactionId = $mpesaStatus->getMpesaTransactionId();
+        $merchantTransactionId = $mpesaStatus->getMerchantTransactionId();
+        $transactionDescription = $mpesaStatus->getTransactionDescription();
+        if ($transactionStatus == "Success") {
+            $success = "Success";
+            $profile->setMpesaConfirmationCode($mPesaTransactionId);
+            $profile->setMpesaDescription($transactionDescription);
+            $profile->setMpesaPaymentDate(new \DateTime($transactionDate));
+            $profile->setMpesaStatus($transactionStatus);
+            $profile->setMpesaVerificationCode($transactionId);
+            $profile->setIsPaid(true);
+            $profile->setMpesaNumber($customerNumber);
+            $profile->setMpesaAmount($transactionAmount);
+            $em->persist($profile);
+            $em->flush();
+            $transactionArray = array("a" => $mPesaTransactionId, "b" => $transactionDate, "c" => $customerNumber, "d" => $transactionAmount);
+            /* $transactionCode ='<b>Mpesa Confirmation Code:<b>'..'<br/>
+             <b>Mpesa Payment Date:<b>'..'<br/>
+             <b>Mpesa Number:</b>'..'<br/>
+             <b>Amount:</b>'.;*/
+            $this->sendPaymentEmail($profile->getFirstName(), $profile->getEmailAddress(), $transactionArray);
+
+        } else {
+            $success = "Failed";
+            $profile->setMpesaVerificationCode($transactionId);
+            $em->persist($profile);
+            $em->flush();
+        }
+        return $this->render(':profile:verificationLater.htm.twig', [
+            'profile' => $profile,
+            'success' => $success,
+            'transactionId'=>$transactionId
+        ]);
+    }
+    /**
+     * @Route("/profile/mpesa/{id}/later",name="verify-later")
+     */
+    public function verifyLater(Request $request, Profile $profile){
+
+        $em = $this->getDoctrine()->getManager();
+        $transactionArray = array("a" => $profile->getId(), "b" => $profile->getMpesaVerificationCode());
+
+        $this->sendVerificationEmail($profile->getFirstName(), $profile->getEmailAddress(), $transactionArray);
+
+        return $this->render(':profile:verifyLater.htm.twig',[
+            'profile' => $profile
+        ]);
     }
 
     /**
@@ -199,7 +269,12 @@ class ProfileController extends Controller
         }
         return $this->render('profile/pay.htm.twig', ['profile' => $userProfile, 'mpesaForm' => $form->createView()]);
     }
-
+    public function sendVerificationEmail($firstName, $emailAddress, $code)
+    {
+        $message = \Swift_Message::newInstance()->setSubject('PRISK Online Portal Profile')->setFrom('portal@prisk.or.ke', 'PRISK Online Portal Team')->setTo($emailAddress)->setBody($this->renderView(// app/Resources/views/Emails/onboard.htm.twig
+            'Emails/paid.htm.twig', array('name' => $firstName, 'code' => $code)), 'text/html');
+        $this->get('mailer')->send($message);
+    }
     public function sendPaymentEmail($firstName, $emailAddress, $code)
     {
         $message = \Swift_Message::newInstance()->setSubject('PRISK Online Portal Profile')->setFrom('portal@prisk.or.ke', 'PRISK Online Portal Team')->setTo($emailAddress)->setBody($this->renderView(// app/Resources/views/Emails/onboard.htm.twig

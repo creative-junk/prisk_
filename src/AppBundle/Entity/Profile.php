@@ -248,6 +248,10 @@ class Profile
      */
     private $mpesaAmount;
     /**
+     * @ORM\Column(type="string",nullable=true)
+     */
+    private $mpesaVerificationCode;
+    /**
      * @ORM\Column(type="boolean",nullable=true)
      */
     private $isUrlvalid;
@@ -1604,6 +1608,22 @@ class Profile
     public function setIsBoardRejected($isBoardRejected)
     {
         $this->isBoardRejected = $isBoardRejected;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMpesaVerificationCode()
+    {
+        return $this->mpesaVerificationCode;
+    }
+
+    /**
+     * @param mixed $mpesaVerificationCode
+     */
+    public function setMpesaVerificationCode($mpesaVerificationCode)
+    {
+        $this->mpesaVerificationCode = $mpesaVerificationCode;
     }
 
 
